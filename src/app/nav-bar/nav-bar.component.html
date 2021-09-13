@@ -1,0 +1,24 @@
+<div>
+  <mat-toolbar color="primary" id="mainWrapper">
+    <select>
+      <option value="default">select country</option>
+      <option *ngFor="let country of countries" value="country.Country">
+        {{ country.Country }}
+      </option>
+    </select>
+
+    <app-date-picker></app-date-picker>
+
+    <select>
+      <option>Select case</option>
+      <option>NewConfirmed</option>
+      <option>TotalConfirmed</option>
+      <option>NewDeaths</option>
+      <option>TotalDeaths</option>
+      <option>NewRecovered</option>
+      <option>TotalRecovered</option>
+    </select>
+
+    <button>Show Data</button>
+  </mat-toolbar>
+</div>

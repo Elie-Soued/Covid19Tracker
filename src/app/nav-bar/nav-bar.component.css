@@ -1,0 +1,14 @@
+#mainWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+select {
+  margin: 2rem;
+}
+
+app-date-picker {
+  height: 100%;
+}
