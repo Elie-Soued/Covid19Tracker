@@ -1,0 +1,6 @@
+What do I need to do now?
+-------------------------
+
+1- I need to get the inputs from the navBar component.
+2- I need to send this data to the api and return a response.
+3- I need to display this response in a Graph component.
