@@ -1,0 +1,29 @@
+<div>
+  <mat-toolbar color="primary" id="mainWrapper">
+    <!--Country Select-->
+    <mat-form-field appearance="fill">
+      <mat-label>Select Country</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let country of countries" [value]="country.Country">
+          {{ country.Country }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--Date picker-->
+    <app-date-picker></app-date-picker>
+
+    <!--Case Select-->
+    <mat-form-field appearance="fill">
+      <mat-label>Select Case</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let c of case" [value]="c">
+          {{ c }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!--Submit Button-->
+    <button mat-button>Show Data</button>
+  </mat-toolbar>
+</div>
