@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
 
 //Components
 import { AppComponent } from './app.component';
@@ -25,11 +26,12 @@ import { DatePickerComponent } from './Components/date-picker/date-picker.compon
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule,
     MatToolbarModule,
     MatSelectModule,
     MatButtonModule,
