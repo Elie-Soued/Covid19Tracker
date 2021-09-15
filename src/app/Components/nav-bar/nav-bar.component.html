@@ -1,9 +1,16 @@
-<div>
-  <mat-toolbar color="primary" id="mainWrapper">
+<form [formGroup]="form">
+  <mat-toolbar
+    color="primary"
+    id="mainWrapper"
+    fxLayoutAlign="space-around center"
+  >
     <!--Country Select-->
     <mat-form-field appearance="fill">
       <mat-label>Select Country</mat-label>
-      <mat-select>
+      <mat-select
+        formControlName="country"
+        (selectionChange)="setSelectedCountry($event)"
+      >
         <mat-option *ngFor="let country of countries" [value]="country.Country">
           {{ country.Country }}
         </mat-option>
@@ -11,19 +18,26 @@
     </mat-form-field>
 
     <!--Date picker-->
-    <app-date-picker></app-date-picker>
+    <app-date-picker
+      (startDate)="setDateFrom($event)"
+      (endDate)="setDateTo($event)"
+    ></app-date-picker>
 
     <!--Case Select-->
     <mat-form-field appearance="fill">
       <mat-label>Select Case</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let c of case" [value]="c">
-          {{ c }}
+      <mat-select
+        formControlName="caseInput"
+        (selectionChange)="setSelectedCase($event)"
+      >
+        <mat-option *ngFor="let case of cases" [value]="case">
+          {{ case }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <!--Submit Button-->
-    <button mat-button>Show Data</button>
+
+    <button mat-button (click)="fetchDataPerCountry()">Show Data</button>
   </mat-toolbar>
-</div>
+</form>
