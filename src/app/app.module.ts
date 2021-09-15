@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 //Angular Material
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -20,6 +21,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { DatePickerComponent } from './Components/date-picker/date-picker.component';
 import { SelectComponent } from './Components/select/select.component';
+import { ChartComponent } from './Components/chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,7 @@ import { SelectComponent } from './Components/select/select.component';
     NavBarComponent,
     DatePickerComponent,
     SelectComponent,
+    ChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { SelectComponent } from './Components/select/select.component';
     MatToolbarModule,
     MatSelectModule,
     MatButtonModule,
+    FlexLayoutModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
