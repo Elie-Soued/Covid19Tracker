@@ -18,17 +18,13 @@ export class DatePickerComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
-    console.log(this.today);
-  }
+  ngOnInit(): void {}
 
   sendStartDate(date: Date) {
     this.startDate.emit(date);
-    console.log(date);
   }
 
   sendEndDate(date: Date) {
     this.endDate.emit(date);
-    console.log(date);
   }
 }
