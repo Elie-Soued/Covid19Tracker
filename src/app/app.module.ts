@@ -19,9 +19,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { DatePickerComponent } from './Components/date-picker/date-picker.component';
+import { SelectComponent } from './Components/select/select.component';
 
 @NgModule({
-  declarations: [AppComponent, NavBarComponent, DatePickerComponent],
+  declarations: [
+    AppComponent,
+    NavBarComponent,
+    DatePickerComponent,
+    SelectComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
