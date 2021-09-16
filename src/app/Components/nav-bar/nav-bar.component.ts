@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../Services/Data/data.service';
+import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { Country } from '../../Interfaces/Country';
 import { MatSelectChange } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
 @Component({
@@ -15,19 +16,14 @@ import { MediaObserver, MediaChange } from '@angular/flex-layout';
 export class NavBarComponent implements OnInit, OnDestroy {
   mediaSub?: Subscription;
   deviceXS?: boolean;
-
-  apiResponse?: Country[];
   countries?: Country[];
   cases: string[] = ['confirmed', 'recovered', 'deaths'];
-
   //Navbar inputs
   selectedCountry?: string;
   selectedDateFrom?: string;
   selectedDateTo?: string;
   selectedCase?: string;
-
   //Form controls
-
   form = new FormGroup({
     country: new FormControl(''),
     caseInput: new FormControl(''),
@@ -36,8 +32,8 @@ export class NavBarComponent implements OnInit, OnDestroy {
   constructor(
     private data: DataService,
     private http: HttpClient,
-    private fb: FormBuilder,
-    private mediaObserver: MediaObserver
+    private mediaObserver: MediaObserver,
+    private transferService: TransferService
   ) {}
 
   ngOnInit(): void {
@@ -54,49 +50,44 @@ export class NavBarComponent implements OnInit, OnDestroy {
     this.mediaSub?.unsubscribe();
   }
 
-  // Get all the country names from the api
+  // Get all the country names from the api to use them in the first select
   getCountries(): void {
     this.data
       .getData()
       .subscribe((object) => this.setCountries(object.Countries));
   }
-
-  //Set the countries property with the info coming from the api
   setCountries(data: Country[]) {
     this.countries = data;
   }
 
-  //Getting Info from the Navbar input and storing them into properties
+  //Get Info from the Navbar input and storing them into properties
   setSelectedCountry(object: MatSelectChange) {
     this.selectedCountry = object.value;
   }
-
   setSelectedCase(object: MatSelectChange) {
     this.selectedCase = object.value;
   }
-
   setDateFrom(date: Date) {
     this.selectedDateFrom = this.correctDate(date);
   }
-
   setDateTo(date: Date) {
     this.selectedDateTo = this.correctDate(date);
   }
 
-  // After updating the needed properties, I send a request to the api
+  //Send a request to the api using the selected properties
   getDataPerCountry(): Observable<Country[]> {
     const dataURL = `https://api.covid19api.com/country/${this.selectedCountry}/status/${this.selectedCase}?from=${this.selectedDateFrom}&to=${this.selectedDateTo}`;
     return this.http.get<Country[]>(dataURL);
   }
 
+  //Send the Api Response to the Chart Component
   fetchDataPerCountry(): void {
-    this.getDataPerCountry().subscribe((object) => this.setApiResponse(object));
+    this.getDataPerCountry().subscribe((object) =>
+      this.sendApiResponseToChart(object)
+    );
   }
-
-  // and set the api response to a property called apiResponse
-  setApiResponse(data: Country[]) {
-    this.apiResponse = data;
-    console.log(this.apiResponse);
+  sendApiResponseToChart(data: Country[]) {
+    this.transferService.sendInfo(data);
   }
 
   correctDate(date: Date) {

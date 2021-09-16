@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import { TransferService } from 'src/app/Services/Transfer/transfer.service';
+import { Country } from 'src/app/Interfaces/Country';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-chart',
@@ -7,6 +9,7 @@ import { Chart, registerables } from 'chart.js';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, AfterViewInit {
+  apiResponse?: Country[];
   canvas: any;
   ctx?: any;
   @ViewChild('canvasChart') canvasChart: any;
@@ -17,30 +20,24 @@ export class ChartComponent implements OnInit, AfterViewInit {
     Chart.register(...registerables);
 
     new Chart(this.ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['confirmed', 'recovered', 'deaths'],
         datasets: [
           {
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 1,
+            data: [5, 10, 20],
+            // backgroundColor: [
+            //   'rgba(255, 99, 132, 0.2)',
+            //   'rgba(54, 162, 235, 0.2)',
+            //   'rgba(255, 206, 86, 0.2)',
+            // ],
+            // borderColor: [
+            //   'rgba(255, 99, 132, 1)',
+            //   'rgba(54, 162, 235, 1)',
+            //   'rgba(255, 206, 86, 1)',
+            // ],
+            borderWidth: 2,
           },
         ],
       },
@@ -54,7 +51,18 @@ export class ChartComponent implements OnInit, AfterViewInit {
     });
   }
 
-  constructor() {}
+  constructor(private transferService: TransferService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getApiResponse();
+  }
+
+  getApiResponse() {
+    this.transferService.receiveInfo().subscribe((d) => this.setApiResponse(d));
+  }
+
+  setApiResponse(data: Country[]) {
+    this.apiResponse = data;
+    console.log(this.apiResponse);
+  }
 }
