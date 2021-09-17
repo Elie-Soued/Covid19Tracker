@@ -1,7 +1,7 @@
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
-import { Country } from 'src/app/Interfaces/Country';
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
 
 @Component({
   selector: 'app-chart',
@@ -9,51 +9,18 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  apiResponse?: Country[];
+  apiResponse?: ResultPerCountry[];
+  dates: string[] = [];
+  cases: number[] = [];
+  title?: string;
   canvas: any;
   ctx?: any;
   @ViewChild('canvasChart') canvasChart: any;
 
-  ngAfterViewInit() {
-    this.canvas = this.canvasChart.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    Chart.register(...registerables);
-
-    new Chart(this.ctx, {
-      type: 'line',
-      data: {
-        labels: ['confirmed', 'recovered', 'deaths'],
-        datasets: [
-          {
-            label: '# of Votes',
-            data: [5, 10, 20],
-            // backgroundColor: [
-            //   'rgba(255, 99, 132, 0.2)',
-            //   'rgba(54, 162, 235, 0.2)',
-            //   'rgba(255, 206, 86, 0.2)',
-            // ],
-            // borderColor: [
-            //   'rgba(255, 99, 132, 1)',
-            //   'rgba(54, 162, 235, 1)',
-            //   'rgba(255, 206, 86, 1)',
-            // ],
-            borderWidth: 2,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
-  }
-
   constructor(private transferService: TransferService) {}
 
   ngOnInit(): void {
+    Chart.register(...registerables);
     this.getApiResponse();
   }
 
@@ -61,8 +28,50 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.transferService.receiveInfo().subscribe((d) => this.setApiResponse(d));
   }
 
-  setApiResponse(data: Country[]) {
-    this.apiResponse = data;
-    console.log(this.apiResponse);
+  setApiResponse(apiResponse: ResultPerCountry[]) {
+    for (let i = 0; i < apiResponse.length; i++) {
+      this.dates.push(apiResponse[i].Date.slice(0, -10));
+      this.cases.push(apiResponse[i].Cases);
+    }
+
+    console.log(apiResponse);
+  }
+
+  ngAfterViewInit() {
+    this.canvas = this.canvasChart.nativeElement;
+    this.ctx = this.canvas.getContext('2d');
+
+    const myChart = new Chart(this.ctx, {
+      type: 'line',
+      data: {
+        labels: ['Noni', 'pilou', 'Karl'],
+        datasets: [
+          {
+            label: '# of Votes',
+            data: [10, 20, 30, 40, 50],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+    this.getApiResponse();
+
+    const updateChart = () => {
+      myChart.data.datasets[0].data = this.cases;
+      myChart.data.labels = this.dates;
+      myChart.update();
+    };
+
+    updateChart();
+
+    // this.apiResponse ? updateChart() : console.log('pilou');
   }
 }
