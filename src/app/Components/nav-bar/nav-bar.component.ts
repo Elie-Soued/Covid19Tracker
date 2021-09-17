@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DataService } from '../../Services/Data/data.service';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { Country } from '../../Interfaces/Country';
+import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
 import { MatSelectChange } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
@@ -13,9 +14,9 @@ import { MediaObserver, MediaChange } from '@angular/flex-layout';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
 })
-export class NavBarComponent implements OnInit, OnDestroy {
-  mediaSub?: Subscription;
-  deviceXS?: boolean;
+export class NavBarComponent implements OnInit {
+  // mediaSub?: Subscription;
+  // deviceXS?: boolean;
   countries?: Country[];
   cases: string[] = ['confirmed', 'recovered', 'deaths'];
   //Navbar inputs
@@ -32,23 +33,23 @@ export class NavBarComponent implements OnInit, OnDestroy {
   constructor(
     private data: DataService,
     private http: HttpClient,
-    private mediaObserver: MediaObserver,
+    // private mediaObserver: MediaObserver,
     private transferService: TransferService
   ) {}
 
   ngOnInit(): void {
     this.getCountries();
-    this.mediaSub = this.mediaObserver.media$.subscribe(
-      (result: MediaChange) => {
-        console.log(result.mqAlias);
-        this.deviceXS = result.mqAlias === 'xs' ? true : false;
-      }
-    );
+    // this.mediaSub = this.mediaObserver.media$.subscribe(
+    //   (result: MediaChange) => {
+    //     console.log(result.mqAlias);
+    //     this.deviceXS = result.mqAlias === 'xs' ? true : false;
+    //   }
+    // );
   }
 
-  ngOnDestroy(): void {
-    this.mediaSub?.unsubscribe();
-  }
+  // ngOnDestroy(): void {
+  //   this.mediaSub?.unsubscribe();
+  // }
 
   // Get all the country names from the api to use them in the first select
   getCountries(): void {
@@ -75,9 +76,9 @@ export class NavBarComponent implements OnInit, OnDestroy {
   }
 
   //Send a request to the api using the selected properties
-  getDataPerCountry(): Observable<Country[]> {
+  getDataPerCountry(): Observable<ResultPerCountry[]> {
     const dataURL = `https://api.covid19api.com/country/${this.selectedCountry}/status/${this.selectedCase}?from=${this.selectedDateFrom}&to=${this.selectedDateTo}`;
-    return this.http.get<Country[]>(dataURL);
+    return this.http.get<ResultPerCountry[]>(dataURL);
   }
 
   //Send the Api Response to the Chart Component
@@ -86,7 +87,7 @@ export class NavBarComponent implements OnInit, OnDestroy {
       this.sendApiResponseToChart(object)
     );
   }
-  sendApiResponseToChart(data: Country[]) {
+  sendApiResponseToChart(data: ResultPerCountry[]) {
     this.transferService.sendInfo(data);
   }
 
