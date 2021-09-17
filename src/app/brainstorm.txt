@@ -1,6 +1,31 @@
-What do I need to do now?
--------------------------
+Chart.js issue : The chart is updating only on Window Resize
+============================================================
 
-1- I need to get the inputs from the navBar component.
-2- I need to send this data to the api and return a response.
-3- I need to display this response in a Graph component.
+I am building a Covid19 Tracker, and I would like to display the data that I am getting from an api
+in a chart ( I am using the chart.js library).
+
+This is the architecture of my app
+
+<app-component>
+    <navBar></navBar>
+    <chart></chart>
+</app-component>
+
+
+The navBar Component 
+--------------------
+-Takes the following inputs :Country, date Range, Cases (deaths,recovered,confirmed)
+-Sends a requests to the api with these inputs
+-Sends the api response to the Canvas Component.
+
+
+The Chart Component (has one job)
+---------------------------------
+-Display the data
+
+
+First of all: check when the data is arriving to The Chart component.
+
+
+
+
