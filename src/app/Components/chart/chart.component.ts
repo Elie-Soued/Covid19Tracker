@@ -9,56 +9,50 @@ import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  apiResponse?: ResultPerCountry[];
   dates: string[] = [];
   cases: number[] = [];
-  title?: string;
-  canvas: any;
-  ctx?: any;
+  title = '';
   @ViewChild('canvasChart') canvasChart: any;
 
   constructor(private transferService: TransferService) {}
 
   ngOnInit(): void {
-    console.log('inside ngOnInit');
     Chart.register(...registerables);
-    this.getApiResponse();
-    console.log('pilou');
   }
 
-  getApiResponse() {
-    this.transferService.receiveInfo().subscribe((d) => this.setApiResponse(d));
+  getApiResponse(after: Function) {
+    this.transferService
+      .receiveInfo()
+      .subscribe((d) => this.setApiResponse(d, after));
   }
 
-  setApiResponse(apiResponse: ResultPerCountry[]) {
+  setApiResponse(apiResponse: ResultPerCountry[], after: Function) {
     for (let i = 0; i < apiResponse.length; i++) {
       this.dates.push(apiResponse[i].Date.slice(0, -10));
       this.cases.push(apiResponse[i].Cases);
-      this.title = apiResponse[0].Status;
+      this.title = apiResponse[i].Status;
     }
-    this.apiResponse = apiResponse;
-    console.log(this.apiResponse);
-    console.log(this.dates);
-    console.log(this.cases);
+    after();
   }
 
   ngAfterViewInit() {
-    console.log('inside ngAfterViewInit');
-    this.canvas = this.canvasChart.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
-    const myChart = new Chart(this.ctx, {
+    const canvas = this.canvasChart.nativeElement;
+    const ctx = canvas.getContext('2d');
+    const myChart = new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['Noni', 'pilou', 'Karl'],
+        labels: [''],
         datasets: [
           {
-            label: 'Pilou',
-            data: [10, 20, 30, 40, 50],
+            label: 'Covid19',
+
+            data: [1],
           },
         ],
       },
       options: {
         responsive: true,
+
         scales: {
           y: {
             beginAtZero: true,
@@ -66,12 +60,14 @@ export class ChartComponent implements OnInit, AfterViewInit {
         },
       },
     });
-    console.log('pilou');
+
     const updateChart = () => {
       myChart.data.datasets[0].data = this.cases;
       myChart.data.labels = this.dates;
+      myChart.data.datasets[0].label = this.title;
       myChart.update();
     };
-    updateChart();
+
+    this.getApiResponse(updateChart);
   }
 }
