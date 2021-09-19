@@ -31,8 +31,17 @@ It arrives when I click on a button in a different component.
 
 
 How can I deal with this ?
-
+--------------------------
 I need to update the Chart when the api Response arrives to the Chart Component.
+
+
+What is the difference between this case and the ChessDownloader?
+------------------------------------------------------------------
+In ChessDownloader, I am setting the info sent on Init.
+In Covid19Tracker, I need to set the value of the api whenever I receive the data from the
+NavBar component
+
+
 
 
 
