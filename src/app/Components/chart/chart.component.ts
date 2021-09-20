@@ -9,7 +9,7 @@ import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  dates: string[] = [];
+  dates?: string[];
   cases: number[] = [];
   title = '';
   @ViewChild('canvasChart') canvasChart: any;
@@ -27,6 +27,8 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
   setApiResponse(apiResponse: ResultPerCountry[], after: Function) {
+    this.dates = [];
+    this.cases = [];
     for (let i = 0; i < apiResponse.length; i++) {
       this.dates.push(apiResponse[i].Date.slice(0, -10));
       this.cases.push(apiResponse[i].Cases);
