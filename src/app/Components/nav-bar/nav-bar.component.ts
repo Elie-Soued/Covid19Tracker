@@ -72,6 +72,9 @@ export class NavBarComponent implements OnInit {
     this.selectedDateFrom = this.correctDate(date);
   }
   setDateTo(date: Date) {
+    if (date === null) {
+      return;
+    }
     this.selectedDateTo = this.correctDate(date);
   }
 
