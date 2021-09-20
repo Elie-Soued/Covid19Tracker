@@ -1,46 +1,9 @@
-Chart.js issue : The chart is updating only on Window Resize
-============================================================
+Problems to resolve:
 
-I am building a Covid19 Tracker, and I would like to display the data that I am getting from an api
-in a chart ( I am using the chart.js library).
+ make the app responsive
 
-This is the architecture of my app
-
-<app-component>
-    <navBar></navBar>
-    <chart></chart>
-</app-component>
-
-
-The navBar Component 
---------------------
--Takes the following inputs :Country, date Range, Cases (deaths,recovered,confirmed)
--Sends a request to the api with the above inputs
--Sends the api response to the Chart Component.
-
-
-The Chart Component (has one job)
----------------------------------
--Display the data
-
-
-To be able to display the data I need to know when the data is arriving to this component.
-It turns out that it arrives when I click on the "Show Data" button of my NavBar Component.
-Which means that the data does not arrive onInit.
-It arrives when I click on a button in a different component.
-
-
-How can I deal with this ?
---------------------------
-I need to update the Chart when the api Response arrives to the Chart Component.
-
-
-What is the difference between this case and the ChessDownloader?
-------------------------------------------------------------------
-In ChessDownloader, I am setting the info sent on Init.
-In Covid19Tracker, I need to set the value of the api whenever I receive the data from the
-NavBar component
-
+later
+I need to replace the call back with a life cycle interface
 
 
 
