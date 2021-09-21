@@ -1,44 +1,62 @@
-<mat-toolbar
-  color="primary"
-  id="mainWrapper"
-  fxLayout="row"
-  fxLayoutAlign="space-around center"
->
-  <!-- fxShow="true"
-  fxHide.lt-sm="true" -->
-  <!-- fxLayout="row wrap" -->
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <!--Select Country-->
+      <mat-form-field appearance="fill">
+        <mat-label>Select Country</mat-label>
+        <mat-select (selectionChange)="setSelectedCountry($event)">
+          <mat-option
+            *ngFor="let country of countries"
+            [value]="country.Country"
+          >
+            {{ country.Country }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <!--Country Select-->
-  <mat-form-field appearance="fill" fxLayout="row">
-    <mat-label>Select Country</mat-label>
-    <mat-select (selectionChange)="setSelectedCountry($event)">
-      <mat-option *ngFor="let country of countries" [value]="country.Country">
-        {{ country.Country }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+      <!--Date Picker-->
+      <app-date-picker
+        (startDate)="setDateFrom($event)"
+        (endDate)="setDateTo($event)"
+      ></app-date-picker>
 
-  <!--Date picker-->
+      <!--Select Case-->
+      <mat-form-field appearance="fill">
+        <mat-label>Select Case</mat-label>
+        <mat-select (selectionChange)="setSelectedCase($event)">
+          <mat-option *ngFor="let case of cases" [value]="case">
+            {{ case }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <app-date-picker
-    (startDate)="setDateFrom($event)"
-    (endDate)="setDateTo($event)"
-  ></app-date-picker>
+      <!-- <app-case-select
+        (selectedCase)="setSelectedCase($event)"
+      ></app-case-select> -->
 
-  <!--Case Select-->
-  <mat-form-field appearance="fill">
-    <mat-label>Select Case</mat-label>
-    <mat-select (selectionChange)="setSelectedCase($event)">
-      <mat-option *ngFor="let case of cases" [value]="case">
-        {{ case }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <!-- <app-select [title]="Select Case"
-  [data]="case"></app-select> -->
-
-  <!--Submit Button-->
-
-  <button mat-button (click)="fetchDataPerCountry()">Show Data</button>
-</mat-toolbar>
+      <button mat-button (click)="fetchDataPerCountry()">Show Data</button>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Covid19Tracker</span>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
