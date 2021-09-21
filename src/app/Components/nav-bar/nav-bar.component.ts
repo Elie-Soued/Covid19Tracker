@@ -1,21 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../Services/Data/data.service';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { Country } from '../../Interfaces/Country';
 import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
 import { MatSelectChange } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
-import { MediaObserver, MediaChange } from '@angular/flex-layout';
+import { Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
 })
-export class NavBarComponent implements OnInit, OnDestroy {
-  mediaSub?: Subscription;
-  deviceXS?: boolean;
+export class NavBarComponent implements OnInit {
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map((result) => result.matches),
+      shareReplay()
+    );
+
   countries?: Country[];
   cases: string[] = ['confirmed', 'recovered', 'deaths'];
   //Navbar inputs
@@ -27,23 +33,12 @@ export class NavBarComponent implements OnInit, OnDestroy {
   constructor(
     private data: DataService,
     private http: HttpClient,
-    private mediaObserver: MediaObserver,
-    private transferService: TransferService
+    private transferService: TransferService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit(): void {
     this.getCountries();
-    this.mediaSub = this.mediaObserver.media$.subscribe(
-      (result: MediaChange) => {
-        console.log(result.mqAlias);
-        console.log(result.mediaQuery);
-        // this.deviceXS = result.mqAlias === 'xs' ? true : false;
-      }
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.mediaSub?.unsubscribe();
   }
 
   // Get all the country names from the api to use them in the first select
