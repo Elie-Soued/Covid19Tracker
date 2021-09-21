@@ -6,7 +6,6 @@ import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
 import { MatSelectChange } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 
 @Component({
@@ -24,11 +23,6 @@ export class NavBarComponent implements OnInit {
   selectedDateFrom?: string;
   selectedDateTo?: string;
   selectedCase?: string;
-  //Form controls
-  form = new FormGroup({
-    country: new FormControl(''),
-    caseInput: new FormControl(''),
-  });
 
   constructor(
     private data: DataService,
@@ -63,6 +57,7 @@ export class NavBarComponent implements OnInit {
 
   //Get Info from the Navbar input and storing them into properties
   setSelectedCountry(object: MatSelectChange) {
+    console.log(object);
     this.selectedCountry = object.value;
   }
   setSelectedCase(object: MatSelectChange) {
