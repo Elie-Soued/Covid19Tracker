@@ -1,10 +1,16 @@
 <mat-toolbar
   color="primary"
   id="mainWrapper"
+  fxLayout="row"
   fxLayoutAlign="space-around center"
+  fxLayout="row wrap"
 >
+  <!-- fxShow="true"
+  fxHide.lt-sm="true" -->
+  <!-- fxLayout="row wrap" -->
+
   <!--Country Select-->
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" fxLayout="row">
     <mat-label>Select Country</mat-label>
     <mat-select (selectionChange)="setSelectedCountry($event)">
       <mat-option *ngFor="let country of countries" [value]="country.Country">
@@ -14,6 +20,7 @@
   </mat-form-field>
 
   <!--Date picker-->
+
   <app-date-picker
     (startDate)="setDateFrom($event)"
     (endDate)="setDateTo($event)"
