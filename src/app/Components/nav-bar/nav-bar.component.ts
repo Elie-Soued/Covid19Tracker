@@ -13,9 +13,9 @@ import { MediaObserver, MediaChange } from '@angular/flex-layout';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
 })
-export class NavBarComponent implements OnInit {
-  // mediaSub?: Subscription;
-  // deviceXS?: boolean;
+export class NavBarComponent implements OnInit, OnDestroy {
+  mediaSub?: Subscription;
+  deviceXS?: boolean;
   countries?: Country[];
   cases: string[] = ['confirmed', 'recovered', 'deaths'];
   //Navbar inputs
@@ -27,23 +27,24 @@ export class NavBarComponent implements OnInit {
   constructor(
     private data: DataService,
     private http: HttpClient,
-    // private mediaObserver: MediaObserver,
+    private mediaObserver: MediaObserver,
     private transferService: TransferService
   ) {}
 
   ngOnInit(): void {
     this.getCountries();
-    // this.mediaSub = this.mediaObserver.media$.subscribe(
-    //   (result: MediaChange) => {
-    //     console.log(result.mqAlias);
-    //     this.deviceXS = result.mqAlias === 'xs' ? true : false;
-    //   }
-    // );
+    this.mediaSub = this.mediaObserver.media$.subscribe(
+      (result: MediaChange) => {
+        console.log(result.mqAlias);
+        console.log(result.mediaQuery);
+        // this.deviceXS = result.mqAlias === 'xs' ? true : false;
+      }
+    );
   }
 
-  // ngOnDestroy(): void {
-  //   this.mediaSub?.unsubscribe();
-  // }
+  ngOnDestroy(): void {
+    this.mediaSub?.unsubscribe();
+  }
 
   // Get all the country names from the api to use them in the first select
   getCountries(): void {
@@ -57,7 +58,6 @@ export class NavBarComponent implements OnInit {
 
   //Get Info from the Navbar input and storing them into properties
   setSelectedCountry(object: MatSelectChange) {
-    console.log(object);
     this.selectedCountry = object.value;
   }
   setSelectedCase(object: MatSelectChange) {
