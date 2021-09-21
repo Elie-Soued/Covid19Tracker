@@ -42,7 +42,14 @@
         (selectedCase)="setSelectedCase($event)"
       ></app-case-select> -->
 
-      <button mat-button (click)="fetchDataPerCountry()">Show Data</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="fetchDataPerCountry()"
+        id="showGraph"
+      >
+        Show Graph
+      </button>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

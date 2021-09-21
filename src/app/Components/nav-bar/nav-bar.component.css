@@ -2,10 +2,21 @@ mat-nav-list {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
 
   height: 40%;
 }
 
 mat-form-field {
   width: 100%;
+}
+
+#showGraph {
+  width: 50%;
+}
+
+mat-toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
