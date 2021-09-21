@@ -20,22 +20,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { DatePickerComponent } from './Components/date-picker/date-picker.component';
-import { SelectComponent } from './Components/select/select.component';
 import { ChartComponent } from './Components/chart/chart.component';
-import { NewNavComponent } from './Components/new-nav/new-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { CountrySelectComponent } from './Components/country-select/country-select.component';
+import { CaseSelectComponent } from './Components/case-select/case-select.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
     DatePickerComponent,
-    SelectComponent,
     ChartComponent,
-    NewNavComponent,
+    CountrySelectComponent,
+    CaseSelectComponent,
   ],
   imports: [
     BrowserModule,
