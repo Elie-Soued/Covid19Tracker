@@ -2,6 +2,8 @@
 
 # compiled output
 
+
+/brainstorm.txt
 /tmp
 /out-tsc
 # Only exists if Bazel was run
