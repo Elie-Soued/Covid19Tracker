@@ -1,11 +1,16 @@
-<!-- <mat-form-field appearance="fill">
-    <mat-label>{{title}}</mat-label>
-    <mat-select
-      formControlName="caseInput"
-      (selectionChange)="setSelectedCase($event)"
-    >
-      <mat-option *ngFor="let element of cases" [value]="case">
-        {{ case }}
+<mat-form-field appearance="fill">
+  <mat-label>{{ title }}</mat-label>
+  <mat-select (selectionChange)="sendInfo(selectedData)">
+    <div *ngIf="data">
+      <mat-option *ngFor="let element of data" [value]="element">
+        {{ element }}
       </mat-option>
-    </mat-select>
-  </mat-form-field> -->
+    </div>
+  </mat-select>
+</mat-form-field>
+
+<!--
+  //If I want to make a Select component. It has to have the following inputs
+  Title (Select Country, Select Case)
+  
+  -->
