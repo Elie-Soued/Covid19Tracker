@@ -22,6 +22,11 @@ import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { DatePickerComponent } from './Components/date-picker/date-picker.component';
 import { SelectComponent } from './Components/select/select.component';
 import { ChartComponent } from './Components/chart/chart.component';
+import { NewNavComponent } from './Components/new-nav/new-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -30,6 +35,7 @@ import { ChartComponent } from './Components/chart/chart.component';
     DatePickerComponent,
     SelectComponent,
     ChartComponent,
+    NewNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +51,10 @@ import { ChartComponent } from './Components/chart/chart.component';
     MatSelectModule,
     MatButtonModule,
     FlexLayoutModule,
+    LayoutModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
