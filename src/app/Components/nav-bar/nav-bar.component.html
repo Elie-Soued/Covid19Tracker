@@ -7,7 +7,7 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
   >
-    <mat-toolbar id="sideBarTitle">Menu</mat-toolbar>
+    <mat-toolbar id="sideBarTitle" color="primary">Menu</mat-toolbar>
     <mat-nav-list>
       <!--Select Country-->
       <mat-form-field appearance="fill">
@@ -65,5 +65,6 @@
       </button>
       <span>Covid19Tracker</span>
     </mat-toolbar>
+    <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
