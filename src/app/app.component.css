@@ -1,8 +1,7 @@
 main {
   display: flex;
   flex-direction: column;
-
-  height: 99vh;
+  height: 60vh;
 }
 
 p {
@@ -14,5 +13,4 @@ app-chart {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
 }
