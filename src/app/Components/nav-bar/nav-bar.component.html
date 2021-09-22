@@ -3,9 +3,9 @@
     #drawer
     class="sidenav"
     fixedInViewport
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-    [opened]="(isHandset$ | async) === false"
+    [attr.role]="(isXsmallScreen$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isXsmallScreen$ | async) ? 'over' : 'side'"
+    [opened]="(isXsmallScreen$ | async) === false"
     disableClose="true"
   >
     <mat-toolbar id="sideBarTitle" color="primary">Menu</mat-toolbar>
@@ -46,13 +46,14 @@
       <button
         mat-raised-button
         color="primary"
-        (click)="fetchDataPerCountry()"
+        (click)="fetchDataPerCountry(); drawer.toggle()"
         id="showGraph"
       >
         Show Graph
       </button>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <button
@@ -60,7 +61,6 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async"
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>

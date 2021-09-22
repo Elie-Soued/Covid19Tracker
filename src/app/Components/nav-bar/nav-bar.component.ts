@@ -15,8 +15,8 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  isHandset$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.Handset)
+  isXsmallScreen$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.XSmall)
     .pipe(
       map((result) => result.matches),
       shareReplay()
