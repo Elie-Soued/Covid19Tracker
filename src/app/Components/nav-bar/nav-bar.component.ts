@@ -23,7 +23,7 @@ export class NavBarComponent implements OnInit {
     );
 
   countries?: Country[];
-  cases: string[] = ['confirmed', 'recovered', 'deaths'];
+  cases: string[] = ['confirmed', 'deaths'];
   //Navbar inputs
   selectedCountry?: string;
   selectedDateFrom?: string;
