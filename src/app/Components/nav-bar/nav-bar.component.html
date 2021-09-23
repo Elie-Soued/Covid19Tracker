@@ -8,7 +8,7 @@
     [opened]="(isXsmallScreen$ | async) === false"
     disableClose="true"
   >
-    <mat-toolbar id="sideBarTitle" color="primary">Menu</mat-toolbar>
+    <mat-toolbar class="sideBarTitle" color="primary">Menu</mat-toolbar>
     <mat-nav-list>
       <!--Select Country-->
       <mat-form-field appearance="fill">
@@ -25,11 +25,11 @@
 
       <!--Radio Buttons-->
       <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1" (click)="showDatePicker()"
-          >Specific Dates</mat-radio-button
+        <mat-radio-button value="1" (click)="hideDatePicker()"
+          >Show All Dates</mat-radio-button
         >
-        <mat-radio-button value="2" (click)="hideDatePicker()"
-          >All Dates</mat-radio-button
+        <mat-radio-button value="2" (click)="showDatePicker()"
+          >Choose Date Range</mat-radio-button
         >
       </mat-radio-group>
 

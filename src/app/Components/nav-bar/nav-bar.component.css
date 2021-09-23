@@ -3,7 +3,7 @@ mat-nav-list {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
+  width: 16.5rem;
   height: 40%;
 }
 
@@ -15,7 +15,7 @@ mat-form-field {
   width: 50%;
 }
 
-#sideBarTitle {
+.sideBarTitle {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -24,4 +24,16 @@ mat-form-field {
 mat-radio-group {
   display: flex;
   flex-direction: column;
+}
+
+mat-radio-group {
+  margin-bottom: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
 }
