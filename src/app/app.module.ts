@@ -15,6 +15,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 
 //Components
 import { AppComponent } from './app.component';
@@ -25,8 +27,6 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { CountrySelectComponent } from './Components/country-select/country-select.component';
-import { CaseSelectComponent } from './Components/case-select/case-select.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +34,6 @@ import { CaseSelectComponent } from './Components/case-select/case-select.compon
     NavBarComponent,
     DatePickerComponent,
     ChartComponent,
-    CountrySelectComponent,
-    CaseSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +53,8 @@ import { CaseSelectComponent } from './Components/case-select/case-select.compon
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatCheckboxModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
