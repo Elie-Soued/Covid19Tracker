@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../Services/Data/data.service';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { Country } from '../../Interfaces/Country';
-import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
 import { MatSelectChange } from '@angular/material/select';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
+import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 
 @Component({
   selector: 'app-nav-bar',
@@ -22,13 +22,16 @@ export class NavBarComponent implements OnInit {
       shareReplay()
     );
 
+  //Properties that stores the country names for the select Country drop down
   countries?: Country[];
-  cases: string[] = ['confirmed', 'deaths'];
+
   //Navbar inputs
   selectedCountry?: string;
   selectedDateFrom?: string;
   selectedDateTo?: string;
-  selectedCase?: string;
+
+  //Property that allows to toggle the date picker
+  datePickerVisible: boolean = false;
 
   constructor(
     private data: DataService,
@@ -55,12 +58,11 @@ export class NavBarComponent implements OnInit {
   setSelectedCountry(object: MatSelectChange) {
     this.selectedCountry = object.value;
   }
-  setSelectedCase(object: MatSelectChange) {
-    this.selectedCase = object.value;
-  }
+
   setDateFrom(date: Date) {
     this.selectedDateFrom = this.correctDate(date);
   }
+
   setDateTo(date: Date) {
     if (date === null) {
       return;
@@ -68,19 +70,30 @@ export class NavBarComponent implements OnInit {
     this.selectedDateTo = this.correctDate(date);
   }
 
-  //Send a request to the api using the selected properties
-  getDataPerCountry(): Observable<ResultPerCountry[]> {
-    const dataURL = `https://api.covid19api.com/country/${this.selectedCountry}/status/${this.selectedCase}?from=${this.selectedDateFrom}&to=${this.selectedDateTo}`;
-    return this.http.get<ResultPerCountry[]>(dataURL);
+  //get data per country for a specific date range
+  getDataPerCountrySpecific(): Observable<CountryAllData[]> {
+    const dataURL = `https://api.covid19api.com/country/${this.selectedCountry}?from=${this.selectedDateFrom}&to=${this.selectedDateTo}`;
+    return this.http.get<CountryAllData[]>(dataURL);
   }
-
-  //Send the Api Response to the Chart Component
-  fetchDataPerCountry(): void {
-    this.getDataPerCountry().subscribe((object) =>
+  fetchDataPerCountrySpecific(): void {
+    this.getDataPerCountrySpecific().subscribe((object) =>
       this.sendApiResponseToChart(object)
     );
   }
-  sendApiResponseToChart(data: ResultPerCountry[]) {
+
+  //get all data per country (from the beginning of the pandemic until today)
+  getDataPerCountryAll(): Observable<CountryAllData[]> {
+    const day1Url = `https://api.covid19api.com/total/dayone/country/${this.selectedCountry}`;
+    return this.http.get<CountryAllData[]>(day1Url);
+  }
+  fetchDataPerCountryAll(): void {
+    this.getDataPerCountryAll().subscribe((object) =>
+      this.sendApiResponseToChart(object)
+    );
+  }
+
+  //Send the response of the Api to the Chart Component
+  sendApiResponseToChart(data: CountryAllData[]) {
     this.transferService.sendInfo(data);
   }
 
@@ -89,5 +102,21 @@ export class NavBarComponent implements OnInit {
     let add2Hours = originalDate + 7200000;
     let newDateISOstring = new Date(add2Hours).toISOString();
     return newDateISOstring;
+  }
+
+  showDatePicker() {
+    this.datePickerVisible = true;
+  }
+
+  hideDatePicker() {
+    this.datePickerVisible = false;
+  }
+
+  activateTheRightFunction() {
+    if (this.datePickerVisible) {
+      this.fetchDataPerCountrySpecific();
+    } else {
+      this.fetchDataPerCountryAll();
+    }
   }
 }
