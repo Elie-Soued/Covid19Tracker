@@ -1,8 +1,0 @@
-<mat-form-field appearance="fill">
-  <mat-label>Select Case</mat-label>
-  <mat-select (selectionChange)="setSelectedCase($event)">
-    <mat-option *ngFor="let case of cases" [value]="case">
-      {{ case }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
