@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
-import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
+import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 
 @Component({
   selector: 'app-chart',
@@ -11,7 +11,14 @@ import { ResultPerCountry } from 'src/app/Interfaces/ResultPerCountry';
 export class ChartComponent implements OnInit, AfterViewInit {
   dates?: string[];
   cases: number[] = [];
-  title = '';
+
+  //properties of the CountryAllData api
+  confirmed: number[] = [];
+  deaths: number[] = [];
+  recovered: number[] = [];
+  active: number[] = [];
+
+  title = 'Confirmed';
   @ViewChild('canvasChart') canvasChart: any;
 
   constructor(private transferService: TransferService) {}
@@ -26,13 +33,18 @@ export class ChartComponent implements OnInit, AfterViewInit {
       .subscribe((d) => this.setApiResponse(d, after));
   }
 
-  setApiResponse(apiResponse: ResultPerCountry[], after: Function) {
+  setApiResponse(apiResponse: CountryAllData[], after: Function) {
     this.dates = [];
-    this.cases = [];
+    this.confirmed = [];
+    this.deaths = [];
+    this.recovered = [];
+    this.active = [];
     for (let i = 0; i < apiResponse.length; i++) {
       this.dates.push(apiResponse[i].Date.slice(0, -10));
-      this.cases.push(apiResponse[i].Cases);
-      this.title = apiResponse[i].Status;
+      this.confirmed.push(apiResponse[i].Confirmed);
+      this.deaths.push(apiResponse[i].Deaths);
+      this.recovered.push(apiResponse[i].Recovered);
+      this.active.push(apiResponse[i].Active);
     }
     after();
   }
@@ -46,27 +58,39 @@ export class ChartComponent implements OnInit, AfterViewInit {
         labels: [''],
         datasets: [
           {
-            label: 'Covid19',
+            label: 'Confirmed',
+            data: [14],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            // pointBorderColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2,
+          },
 
+          {
+            label: 'Deaths',
             data: [1],
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-            ],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            // pointBorderColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 2,
+          },
 
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-            ],
-            borderWidth: 1,
+          {
+            label: 'Active',
+            data: [6],
+            backgroundColor: 'rgba(255, 206, 86, 0.2)',
+            // pointBorderColor: 'rgba(255, 206, 86, 0.2)',
+            borderColor: 'rgba(255, 206, 86, 1)',
+            borderWidth: 2,
+          },
+
+          {
+            label: 'Recovered',
+            data: [10],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            // pointBorderColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
           },
         ],
       },
@@ -82,7 +106,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
     });
 
     const updateChart = () => {
-      myChart.data.datasets[0].data = this.cases;
+      myChart.data.datasets[0].data = this.confirmed;
+      myChart.data.datasets[1].data = this.deaths;
+      myChart.data.datasets[2].data = this.active;
+      myChart.data.datasets[3].data = this.recovered;
       myChart.data.labels = this.dates;
       myChart.data.datasets[0].label = this.title;
       myChart.update();
