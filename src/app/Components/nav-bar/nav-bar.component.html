@@ -23,30 +23,28 @@
         </mat-select>
       </mat-form-field>
 
+      <!--Radio Buttons-->
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button value="1" (click)="showDatePicker()"
+          >Specific Dates</mat-radio-button
+        >
+        <mat-radio-button value="2" (click)="hideDatePicker()"
+          >All Dates</mat-radio-button
+        >
+      </mat-radio-group>
+
       <!--Date Picker-->
-      <app-date-picker
-        (startDate)="setDateFrom($event)"
-        (endDate)="setDateTo($event)"
-      ></app-date-picker>
-
-      <!--Select Case-->
-      <mat-form-field appearance="fill">
-        <mat-label>Select Case</mat-label>
-        <mat-select (selectionChange)="setSelectedCase($event)">
-          <mat-option *ngFor="let case of cases" [value]="case">
-            {{ case }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- <app-case-select
-        (selectedCase)="setSelectedCase($event)"
-      ></app-case-select> -->
+      <div *ngIf="datePickerVisible">
+        <app-date-picker
+          (startDate)="setDateFrom($event)"
+          (endDate)="setDateTo($event)"
+        ></app-date-picker>
+      </div>
 
       <button
         mat-raised-button
         color="primary"
-        (click)="fetchDataPerCountry(); drawer.toggle()"
+        (click)="activateTheRightFunction(); drawer.toggle()"
         id="showGraph"
       >
         Show Graph
