@@ -10,7 +10,6 @@ import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 })
 export class ChartComponent implements OnInit, AfterViewInit {
   dates?: string[];
-  cases: number[] = [];
 
   //properties of the CountryAllData api
   confirmed: number[] = [];
@@ -59,7 +58,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
         datasets: [
           {
             label: 'Confirmed',
-            data: [14],
+            data: [],
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             // pointBorderColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
