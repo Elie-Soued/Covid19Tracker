@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-nav-bar',
@@ -23,6 +24,7 @@ export class NavBarComponent implements OnInit {
     );
 
   //Properties that stores the country names for the select Country drop down
+
   countries?: Country[];
 
   //Navbar inputs
@@ -60,14 +62,19 @@ export class NavBarComponent implements OnInit {
   }
 
   setDateFrom(date: Date) {
-    this.selectedDateFrom = this.correctDate(date);
+    this.selectedDateFrom = moment(date)
+      .format('YYYY-MM-DD')
+      .concat('T00:00:00.000Z');
   }
 
   setDateTo(date: Date) {
     if (date === null) {
       return;
     }
-    this.selectedDateTo = this.correctDate(date);
+
+    this.selectedDateTo = moment(date)
+      .format('YYYY-MM-DD')
+      .concat('T00:00:00.000Z');
   }
 
   //get data per country for a specific date range
@@ -95,13 +102,6 @@ export class NavBarComponent implements OnInit {
   //Send the response of the Api to the Chart Component
   sendApiResponseToChart(data: CountryAllData[]) {
     this.transferService.sendInfo(data);
-  }
-
-  correctDate(date: Date) {
-    let originalDate = date.setMinutes(date.getMinutes());
-    let add2Hours = originalDate + 7200000;
-    let newDateISOstring = new Date(add2Hours).toISOString();
-    return newDateISOstring;
   }
 
   showDatePicker() {
