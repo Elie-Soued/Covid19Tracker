@@ -62,9 +62,7 @@ export class NavBarComponent implements OnInit {
   }
 
   setDateFrom(date: Date) {
-    this.selectedDateFrom = moment(date)
-      .format('YYYY-MM-DD')
-      .concat('T00:00:00.000Z');
+    this.selectedDateFrom = this.formatDate(date);
   }
 
   setDateTo(date: Date) {
@@ -72,9 +70,7 @@ export class NavBarComponent implements OnInit {
       return;
     }
 
-    this.selectedDateTo = moment(date)
-      .format('YYYY-MM-DD')
-      .concat('T00:00:00.000Z');
+    this.selectedDateTo = this.formatDate(date);
   }
 
   //get data per country for a specific date range
@@ -118,5 +114,9 @@ export class NavBarComponent implements OnInit {
     } else {
       this.fetchDataPerCountryAll();
     }
+  }
+
+  formatDate(date: Date) {
+    return moment(date).format('YYYY-MM-DD').concat('T00:00:00.000Z');
   }
 }
