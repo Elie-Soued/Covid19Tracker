@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
+import datasets from './datasets';
 
 @Component({
   selector: 'app-chart',
@@ -55,46 +56,11 @@ export class ChartComponent implements OnInit, AfterViewInit {
       type: 'bar',
       data: {
         labels: [''],
-        datasets: [
-          {
-            label: 'Confirmed',
-            data: [],
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            // pointBorderColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 2,
-          },
-
-          {
-            label: 'Deaths',
-            data: [1],
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            // pointBorderColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 2,
-          },
-
-          {
-            label: 'Active',
-            data: [6],
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-            // pointBorderColor: 'rgba(255, 206, 86, 0.2)',
-            borderColor: 'rgba(255, 206, 86, 1)',
-            borderWidth: 2,
-          },
-
-          {
-            label: 'Recovered',
-            data: [10],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            // pointBorderColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-          },
-        ],
+        datasets,
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
 
         scales: {
           y: {
