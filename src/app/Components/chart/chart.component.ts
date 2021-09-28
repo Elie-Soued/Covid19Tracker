@@ -10,13 +10,13 @@ import datasets from './datasets';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  dates?: string[];
-
   //properties of the CountryAllData api
+  country?: string;
   confirmed: number[] = [];
   deaths: number[] = [];
   recovered: number[] = [];
   active: number[] = [];
+  dates?: string[];
 
   title = 'Confirmed';
   @ViewChild('canvasChart') canvasChart: any;
@@ -45,7 +45,9 @@ export class ChartComponent implements OnInit, AfterViewInit {
       this.deaths.push(apiResponse[i].Deaths);
       this.recovered.push(apiResponse[i].Recovered);
       this.active.push(apiResponse[i].Active);
+      this.country = apiResponse[i].Country;
     }
+
     after();
   }
 
