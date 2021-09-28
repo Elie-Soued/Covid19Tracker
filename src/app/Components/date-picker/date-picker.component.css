@@ -1,0 +1,11 @@
+form {
+  width: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+mat-date-range-input {
+  margin-left: 2.4rem;
+}

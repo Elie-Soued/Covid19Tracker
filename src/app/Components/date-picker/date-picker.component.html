@@ -1,25 +1,23 @@
 <form [formGroup]="dateRange">
-  <mat-form-field appearance="fill">
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [max]="today" [rangePicker]="picker">
-      <input
-        matInput
-        readonly
-        matStartDate
-        placeholder="Start date"
-        formControlName="start"
-        (dateInput)="sendStartDate($event.value)"
-      />
-      <input
-        matInput
-        readonly
-        matEndDate
-        placeholder="End date"
-        formControlName="end"
-        (dateInput)="sendEndDate($event.value)"
-      />
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-input [max]="today" [rangePicker]="picker">
     <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+
+    <input
+      id="pilou"
+      matInput
+      readonly
+      matStartDate
+      formControlName="start"
+      (dateInput)="sendStartDate($event.value)"
+    />
+    <input
+      id="secondInput"
+      matInput
+      readonly
+      matEndDate
+      formControlName="end"
+      (dateInput)="sendEndDate($event.value)"
+    />
+  </mat-date-range-input>
 </form>
