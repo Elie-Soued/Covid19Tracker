@@ -71,12 +71,16 @@ export class ChartComponent implements OnInit, AfterViewInit {
     });
 
     const updateChart = () => {
-      myChart.data.datasets[0].data = this.confirmed;
-      myChart.data.datasets[1].data = this.deaths;
-      myChart.data.datasets[2].data = this.active;
-      myChart.data.datasets[3].data = this.recovered;
+      const updated = [
+        this.confirmed,
+        this.deaths,
+        this.active,
+        this.recovered,
+      ];
+      for (let i = 0; i < updated.length; i++) {
+        myChart.data.datasets[i].data = updated[i];
+      }
       myChart.data.labels = this.dates;
-      myChart.data.datasets[0].label = this.title;
       myChart.update();
     };
 
