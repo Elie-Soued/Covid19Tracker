@@ -4,6 +4,7 @@ import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 import datasets from './datasets';
 import 'chartjs-adapter-date-fns';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chart',
@@ -11,7 +12,7 @@ import 'chartjs-adapter-date-fns';
   styleUrls: ['./chart.component.css'],
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  //properties of the CountryAllData api
+  //properties to set
   country?: string;
   confirmed: number[] = [];
   deaths: number[] = [];
@@ -19,7 +20,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
   active: number[] = [];
   dates?: string[];
 
-  title = 'Confirmed';
+  //Selecting the Canvas from the Template
   @ViewChild('canvasChart') canvasChart: any;
 
   constructor(private transferService: TransferService) {}
@@ -35,14 +36,9 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
   setApiResponse(apiResponse: CountryAllData[], after: Function) {
-    this.dates = [];
-    this.confirmed = [];
-    this.deaths = [];
-    this.recovered = [];
-    this.active = [];
-
+    this.resetValues();
     for (let i = 0; i < apiResponse.length; i++) {
-      this.dates.push(apiResponse[i].Date.slice(0, -10));
+      this.dates?.push(this.formatDate(apiResponse[i].Date));
       this.confirmed.push(apiResponse[i].Confirmed);
       this.deaths.push(apiResponse[i].Deaths);
       this.recovered.push(apiResponse[i].Recovered);
@@ -95,5 +91,19 @@ export class ChartComponent implements OnInit, AfterViewInit {
     };
 
     this.getApiResponse(updateChart);
+  }
+
+  //Helper function
+
+  formatDate(date: string) {
+    return moment(date).format('YYYY-MM-DD');
+  }
+
+  resetValues() {
+    this.dates = [];
+    this.confirmed = [];
+    this.deaths = [];
+    this.recovered = [];
+    this.active = [];
   }
 }
