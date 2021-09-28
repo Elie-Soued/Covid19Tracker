@@ -3,6 +3,7 @@ import { Chart, registerables } from 'chart.js';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 import datasets from './datasets';
+import 'chartjs-adapter-date-fns';
 
 @Component({
   selector: 'app-chart',
@@ -39,6 +40,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.deaths = [];
     this.recovered = [];
     this.active = [];
+
     for (let i = 0; i < apiResponse.length; i++) {
       this.dates.push(apiResponse[i].Date.slice(0, -10));
       this.confirmed.push(apiResponse[i].Confirmed);
@@ -67,6 +69,12 @@ export class ChartComponent implements OnInit, AfterViewInit {
         scales: {
           y: {
             beginAtZero: true,
+          },
+          x: {
+            type: 'time',
+            time: {
+              minUnit: 'day',
+            },
           },
         },
       },
