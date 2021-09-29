@@ -13,7 +13,7 @@
       <!--Select Country-->
       <mat-form-field appearance="fill">
         <mat-label>Select Country</mat-label>
-        <mat-select (selectionChange)="setSelectedCountry($event)">
+        <mat-select (selectionChange)="setSelectedCountry($event)" required>
           <mat-option
             *ngFor="let country of countries"
             [value]="country.Country"
@@ -24,11 +24,16 @@
       </mat-form-field>
 
       <!--Radio Buttons-->
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="1" (click)="hideDatePicker()"
+
+      <mat-radio-group
+        required
+        [(ngModel)]="rangeSelection"
+        name="rangeSelection"
+      >
+        <mat-radio-button value="allDates" (click)="hideDatePicker()"
           >Show All Dates</mat-radio-button
         >
-        <mat-radio-button value="2" (click)="showDatePicker()"
+        <mat-radio-button value="specificDates" (click)="showDatePicker()"
           >Choose Date Range</mat-radio-button
         >
       </mat-radio-group>
@@ -45,6 +50,11 @@
         mat-raised-button
         color="primary"
         (click)="activateTheRightFunction(); drawer.toggle()"
+        [disabled]="
+          !rangeSelection ||
+          (rangeSelection === 'specificDates' && !selectedDateFrom) ||
+          (rangeSelection === 'specificDates' && !selectedDateTo)
+        "
         id="showGraph"
       >
         Show Graph
@@ -67,3 +77,10 @@
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<!--
+
+  condition:
+  1-button should be disabled if !rangeSelection
+  2-button should be disable if rangeSelection === specificDates && !selectedDateFrom || !selectedDateTo
+-->

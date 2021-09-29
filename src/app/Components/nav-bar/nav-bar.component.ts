@@ -1,13 +1,20 @@
+//Angular common/core
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+//Services
 import { DataService } from '../../Services/Data/data.service';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
+//Interfaces
 import { Country } from '../../Interfaces/Country';
-import { MatSelectChange } from '@angular/material/select';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { map, shareReplay } from 'rxjs/operators';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
+//Angular Material
+import { MatSelectChange } from '@angular/material/select';
+//Rxjs
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+//External Library
 import * as moment from 'moment';
 
 @Component({
@@ -23,8 +30,7 @@ export class NavBarComponent implements OnInit {
       shareReplay()
     );
 
-  //Properties that stores the country names for the select Country drop down
-
+  //List of countries received from the api
   countries?: Country[];
 
   //Navbar inputs
@@ -34,6 +40,7 @@ export class NavBarComponent implements OnInit {
 
   //Property that allows to toggle the date picker
   datePickerVisible: boolean = false;
+  rangeSelection?: string;
 
   constructor(
     private data: DataService,
@@ -69,7 +76,6 @@ export class NavBarComponent implements OnInit {
     if (date === null) {
       return;
     }
-
     this.selectedDateTo = this.formatDate(date);
   }
 

@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
 
 //Angular Material
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -17,6 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 //Components
 import { AppComponent } from './app.component';
@@ -24,9 +28,6 @@ import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { DatePickerComponent } from './Components/date-picker/date-picker.component';
 import { ChartComponent } from './Components/chart/chart.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { MatListModule } from '@angular/material/list';
     MatListModule,
     MatCheckboxModule,
     MatRadioModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
