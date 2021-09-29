@@ -51,14 +51,25 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const canvas = this.canvasChart.nativeElement;
-    const ctx = canvas.getContext('2d');
-    const myChart = new Chart(ctx, {
+
+    const myChart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels: [''],
         datasets,
       },
       options: {
+        plugins: {
+          legend: {
+            onHover() {
+              canvas.style.cursor = 'pointer';
+            },
+            onLeave() {
+              canvas.style.cursor = 'auto';
+            },
+          },
+        },
+
         responsive: true,
         maintainAspectRatio: false,
 
