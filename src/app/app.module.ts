@@ -28,6 +28,7 @@ import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
 import { DatePickerComponent } from './Components/date-picker/date-picker.component';
 import { ChartComponent } from './Components/chart/chart.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { CountrySelectComponent } from './Components/country-select/country-select.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     NavBarComponent,
     DatePickerComponent,
     ChartComponent,
+    CountrySelectComponent,
   ],
   imports: [
     BrowserModule,
