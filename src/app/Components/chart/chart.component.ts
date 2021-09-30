@@ -67,6 +67,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
             onLeave() {
               canvas.style.cursor = 'auto';
             },
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+            },
           },
         },
 
