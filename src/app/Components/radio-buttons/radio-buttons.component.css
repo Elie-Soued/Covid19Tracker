@@ -1,0 +1,8 @@
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+mat-radio-group {
+  margin-bottom: 1rem;
+}

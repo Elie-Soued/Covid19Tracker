@@ -47,7 +47,6 @@ export class NavBarComponent implements OnInit {
   //Setters
   //-------
 
-  //Setting the value of the properties to send an Api Call accordingly
   setSelectedCountry(object: string) {
     this.selectedCountry = object;
   }
@@ -59,6 +58,9 @@ export class NavBarComponent implements OnInit {
       return;
     }
     this.selectedDateTo = this.formatDate(date);
+  }
+  setRangeSelection(range: string) {
+    this.rangeSelection = range;
   }
 
   //Api Calls

@@ -16,18 +16,11 @@
       </app-country-select>
 
       <!--Radio Buttons-->
-      <mat-radio-group
-        required
-        [(ngModel)]="rangeSelection"
-        name="rangeSelection"
-      >
-        <mat-radio-button value="allDates" (click)="hideDatePicker()"
-          >Show All Dates</mat-radio-button
-        >
-        <mat-radio-button value="specificDates" (click)="showDatePicker()"
-          >Choose Date Range</mat-radio-button
-        >
-      </mat-radio-group>
+      <app-radio-buttons
+        (allDates)="hideDatePicker()"
+        (specificDates)="showDatePicker()"
+        (rangeSelection)="setRangeSelection($event)"
+      ></app-radio-buttons>
 
       <!--Date Picker-->
       <div *ngIf="datePickerVisible">

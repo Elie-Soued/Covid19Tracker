@@ -29,6 +29,7 @@ import { DatePickerComponent } from './Components/date-picker/date-picker.compon
 import { ChartComponent } from './Components/chart/chart.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CountrySelectComponent } from './Components/country-select/country-select.component';
+import { RadioButtonsComponent } from './Components/radio-buttons/radio-buttons.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { CountrySelectComponent } from './Components/country-select/country-sele
     DatePickerComponent,
     ChartComponent,
     CountrySelectComponent,
+    RadioButtonsComponent,
   ],
   imports: [
     BrowserModule,
