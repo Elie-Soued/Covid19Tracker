@@ -102,6 +102,7 @@ export class NavBarComponent implements OnInit {
 
   hideDatePicker() {
     this.datePickerVisible = false;
+    this.clearDateRange();
   }
 
   activateTheRightFunction() {
@@ -118,6 +119,7 @@ export class NavBarComponent implements OnInit {
 
   disableButton() {
     if (
+      !this.selectedCountry ||
       !this.rangeSelection ||
       (this.rangeSelection === 'specificDates' &&
         (!this.selectedDateFrom || !this.selectedDateTo))
@@ -126,5 +128,10 @@ export class NavBarComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  clearDateRange() {
+    this.selectedDateFrom = undefined;
+    this.selectedDateTo = undefined;
   }
 }
