@@ -1,4 +1,7 @@
+<!--Sidenav Parent component-->
 <mat-sidenav-container class="sidenav-container">
+  <!--Sidenav first child component-->
+
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -6,9 +9,9 @@
     [attr.role]="(isXsmallScreen$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isXsmallScreen$ | async) ? 'over' : 'side'"
     [opened]="(isXsmallScreen$ | async) === false"
-    disableClose="true"
+    disableClose="false"
   >
-    <mat-toolbar class="sideBarTitle" color="primary">Menu</mat-toolbar>
+    <!-- <mat-toolbar class="sideBarTitle" color="primary"></mat-toolbar> -->
     <mat-nav-list>
       <!--Select Country-->
       <mat-form-field appearance="fill">
@@ -62,6 +65,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
+  <!--Sidenav second child component-->
   <mat-sidenav-content>
     <mat-toolbar color="primary">
       <button
@@ -77,10 +81,3 @@
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<!--
-
-  condition:
-  1-button should be disabled if !rangeSelection
-  2-button should be disable if rangeSelection === specificDates && !selectedDateFrom || !selectedDateTo
--->
