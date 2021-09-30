@@ -7,7 +7,7 @@ mat-nav-list {
   height: 40%;
 }
 
-mat-form-field {
+app-country-select {
   width: 100%;
 }
 
