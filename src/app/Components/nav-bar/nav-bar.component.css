@@ -37,3 +37,7 @@ mat-radio-group {
 .show {
   display: block;
 }
+
+mat-sidenav {
+  margin-top: -0.2rem;
+}
