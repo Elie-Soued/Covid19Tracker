@@ -41,15 +41,3 @@ mat-radio-group {
 mat-sidenav {
   margin-top: -0.2rem;
 }
-
-#toolbar {
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
-#button {
-  justify-self: right;
-  position: absolute;
-  right: 0%;
-}
