@@ -5,9 +5,7 @@
     #drawer
     class="sidenav"
     fixedInViewport
-    [attr.role]="(isXsmallScreen$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isXsmallScreen$ | async) ? 'over' : 'side'"
-    [opened]="(isXsmallScreen$ | async) === false"
+    [mode]="'over'"
     disableClose="false"
   >
     <mat-nav-list>
@@ -45,16 +43,17 @@
 
   <!--Sidenav Content-->
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" id="toolbar">
+      <span class="title">Covid19Tracker</span>
       <button
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
+        id="button"
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Covid19Tracker</span>
     </mat-toolbar>
   </mat-sidenav-content>
 </mat-sidenav-container>
