@@ -7,9 +7,6 @@ import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 //Rxjs
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
-//Angular cdk
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 //External Library
 import * as moment from 'moment';
 
@@ -19,27 +16,20 @@ import * as moment from 'moment';
   styleUrls: ['./nav-bar.component.css'],
 })
 export class NavBarComponent implements OnInit {
-  //Observable that return true if the screen is Xsmall
-  isXsmallScreen$: Observable<boolean> = this.breakpointObserver
-    .observe(Breakpoints.XSmall)
-    .pipe(
-      map((result) => result.matches),
-      shareReplay()
-    );
-
-  //Navbar inputs
+  //Inputs received from the date Picker and the buttons Components
   selectedCountry?: string;
   selectedDateFrom?: string;
   selectedDateTo?: string;
 
   //Property that allows to toggle the date picker
   datePickerVisible: boolean = false;
+
+  //Property that defines the range selection value : allDates or Specificdates
   rangeSelection?: string;
 
   constructor(
     private http: HttpClient,
-    private transferService: TransferService,
-    private breakpointObserver: BreakpointObserver
+    private transferService: TransferService
   ) {}
 
   ngOnInit(): void {}
@@ -91,7 +81,6 @@ export class NavBarComponent implements OnInit {
   //Helper Functions
   //----------------
 
-  //Send the response of the Api to the Chart Component
   sendApiResponseToChart(data: CountryAllData[]) {
     this.transferService.sendInfo(data);
   }
