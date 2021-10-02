@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-radio-buttons',
@@ -22,7 +23,7 @@ export class RadioButtonsComponent implements OnInit {
     this.specificDates.emit();
   }
 
-  setRangeSelection(event: any) {
+  setRangeSelection(event: MatRadioChange) {
     this.rangeSelection.emit(event.value);
   }
 }
