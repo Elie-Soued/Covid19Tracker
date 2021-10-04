@@ -10,6 +10,7 @@ export class DatePickerComponent implements OnInit {
   @Output() startDate = new EventEmitter<Date>();
   @Output() endDate = new EventEmitter<Date>();
 
+  //Defining Today to send it as the form Max
   today: Date = new Date();
   dateRange = new FormGroup({
     start: new FormControl(''),
@@ -20,10 +21,12 @@ export class DatePickerComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  //Output Start Date
   sendStartDate(date: Date) {
     this.startDate.emit(date);
   }
 
+  //Output End Date
   sendEndDate(date: Date) {
     this.endDate.emit(date);
   }

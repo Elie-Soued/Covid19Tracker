@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { DataService } from '../../Services/Data/data.service';
 import { Country } from '../../Interfaces/Country';
@@ -18,16 +18,20 @@ export class CountrySelectComponent implements OnInit {
     this.getCountries();
   }
 
-  setSelectedCountry(object: MatSelectChange) {
-    this.selectedCountry.emit(object.value);
-  }
-
+  //Getting the values from the DataService
   getCountries(): void {
     this.data
       .getData()
       .subscribe((object) => this.setCountries(object.Countries));
   }
+
+  //Setting the countries property
   setCountries(data: Country[]) {
     this.countries = data;
+  }
+
+  //Output the string of the selected country
+  setSelectedCountry(object: MatSelectChange) {
+    this.selectedCountry.emit(object.value);
   }
 }
