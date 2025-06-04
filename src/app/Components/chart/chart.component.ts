@@ -3,6 +3,7 @@ import { Chart, registerables } from 'chart.js';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import datasets from './datasets';
 import 'chartjs-adapter-date-fns';
+import moment from 'moment';
 
 @Component({
   selector: 'app-chart',
@@ -26,9 +27,9 @@ export class ChartComponent implements OnInit, AfterViewInit {
   }
 
   getApiResponse(after: Function) {
-    this.transferService
-      .receiveInfo()
-      .subscribe((d) => this.setApiResponse(d, after));
+    this.transferService.receiveInfo().subscribe((d) => {
+      if (Object.values(d).length) this.setApiResponse(d, after);
+    });
   }
 
   setApiResponse(apiResponse: any, after: Function) {
@@ -38,6 +39,7 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.recovered.push(apiResponse.data.recovered);
     this.active.push(apiResponse.data.active);
     this.country = apiResponse.data.country;
+    this.dates?.push(this.formatDate(apiResponse.data.date));
 
     after();
   }
@@ -99,6 +101,10 @@ export class ChartComponent implements OnInit, AfterViewInit {
     };
 
     this.getApiResponse(updateChart);
+  }
+
+  formatDate(date: string) {
+    return moment(date).format('YYYY-MM-DD');
   }
 
   resetValues() {
