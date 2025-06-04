@@ -2,9 +2,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-date-picker',
-  templateUrl: './date-picker.component.html',
-  styleUrls: ['./date-picker.component.css'],
+    selector: 'app-date-picker',
+    templateUrl: './date-picker.component.html',
+    styleUrls: ['./date-picker.component.css'],
+    standalone: false
 })
 export class DatePickerComponent implements OnInit {
   @Output() startDate = new EventEmitter<Date>();

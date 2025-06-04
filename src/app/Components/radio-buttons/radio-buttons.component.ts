@@ -1,9 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-radio-buttons',
-  templateUrl: './radio-buttons.component.html',
-  styleUrls: ['./radio-buttons.component.css'],
+    selector: 'app-radio-buttons',
+    templateUrl: './radio-buttons.component.html',
+    styleUrls: ['./radio-buttons.component.css'],
+    standalone: false
 })
 export class RadioButtonsComponent implements OnInit {
   @Output() allDates = new EventEmitter();

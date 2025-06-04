@@ -4,9 +4,10 @@ import { DataService } from '../../Services/Data/data.service';
 import { Country } from '../../Interfaces/Country';
 
 @Component({
-  selector: 'app-country-select',
-  templateUrl: './country-select.component.html',
-  styleUrls: ['./country-select.component.css'],
+    selector: 'app-country-select',
+    templateUrl: './country-select.component.html',
+    styleUrls: ['./country-select.component.css'],
+    standalone: false
 })
 export class CountrySelectComponent implements OnInit {
   countries?: Country[];
