@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-date-picker',
@@ -11,9 +11,9 @@ export class DatePickerComponent implements OnInit {
   @Output() endDate = new EventEmitter<Date>();
 
   today: Date = new Date();
-  dateRange = new FormGroup({
-    start: new FormControl(''),
-    end: new FormControl(''),
+  dateRange = new UntypedFormGroup({
+    start: new UntypedFormControl(''),
+    end: new UntypedFormControl(''),
   });
 
   constructor() {}
