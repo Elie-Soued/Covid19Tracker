@@ -35,6 +35,7 @@
           },
           "configurations": {
             "production": {
+              "outputPath": "/var/www/covid19tracker",
               "budgets": [
                 {
                   "type": "initial",
