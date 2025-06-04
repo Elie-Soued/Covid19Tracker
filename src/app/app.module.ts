@@ -1,7 +1,7 @@
 //Modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -31,38 +31,31 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { CountrySelectComponent } from './Components/country-select/country-select.component';
 import { RadioButtonsComponent } from './Components/radio-buttons/radio-buttons.component';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    NavBarComponent,
-    DatePickerComponent,
-    ChartComponent,
-    CountrySelectComponent,
-    RadioButtonsComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatButtonModule,
-    FlexLayoutModule,
-    LayoutModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    FormsModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        NavBarComponent,
+        DatePickerComponent,
+        ChartComponent,
+        CountrySelectComponent,
+        RadioButtonsComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatSelectModule,
+        MatButtonModule,
+        FlexLayoutModule,
+        LayoutModule,
+        MatSidenavModule,
+        MatIconModule,
+        MatListModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {}
