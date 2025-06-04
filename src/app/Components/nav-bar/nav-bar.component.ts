@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
-import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 
 @Component({
   selector: 'app-nav-bar',
@@ -11,6 +10,7 @@ import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 })
 export class NavBarComponent {
   selectedCountry?: string;
+  @Output() setChartData = new EventEmitter<any>();
 
   constructor(
     private http: HttpClient,
@@ -21,11 +21,10 @@ export class NavBarComponent {
     this.selectedCountry = object;
   }
 
-  //get all data from the beginning of the pandemic per country
   fetchDataPerCountryAll(): void {
     const day1Url = `https://covid-api.com/api/reports/total?iso=${this.selectedCountry}`;
     this.http
-      .get<CountryAllData[]>(day1Url, {
+      .get<any>(day1Url, {
         headers: {
           'Access-Control-Allow-Origin': '*',
         },

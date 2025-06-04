@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
-import { DataService } from '../../Services/Data/data.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-country-select',
@@ -11,11 +11,12 @@ import { DataService } from '../../Services/Data/data.service';
 export class CountrySelectComponent implements OnInit {
   countries?: any;
   @Output() selectedCountry = new EventEmitter<string>();
+  private dataUrl = 'https://covid-api.com/api/regions';
 
-  constructor(private data: DataService) {}
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.data.getData().subscribe((object) => {
+    this.http.get<any>(this.dataUrl).subscribe((object) => {
       this.countries = object.data;
     });
   }

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransferService {
-  private apiResponse = new BehaviorSubject<CountryAllData[]>(
-    {} as CountryAllData[]
-  );
+  private apiResponse = new BehaviorSubject<any>({} as any);
   constructor() {}
 
-  sendInfo(data: CountryAllData[]) {
+  sendInfo(data: any) {
     this.apiResponse.next(data);
   }
 
