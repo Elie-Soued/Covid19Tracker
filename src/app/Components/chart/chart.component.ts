@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { TransferService } from 'src/app/Services/Transfer/transfer.service';
-import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 import datasets from './datasets';
 import 'chartjs-adapter-date-fns';
-import moment from 'moment';
 
 @Component({
   selector: 'app-chart',
@@ -13,15 +11,12 @@ import moment from 'moment';
   standalone: false,
 })
 export class ChartComponent implements OnInit, AfterViewInit {
-  //properties to set
   country?: string;
   confirmed: number[] = [];
   deaths: number[] = [];
   recovered: number[] = [];
   active: number[] = [];
   dates?: string[];
-
-  //Selecting the Canvas from the Template
   @ViewChild('canvasChart') canvasChart: any;
 
   constructor(private transferService: TransferService) {}
@@ -38,7 +33,6 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
   setApiResponse(apiResponse: any, after: Function) {
     this.resetValues();
-    this.dates?.push(this.formatDate(apiResponse.data.date));
     this.confirmed.push(apiResponse.data.confirmed);
     this.deaths.push(apiResponse.data.deaths);
     this.recovered.push(apiResponse.data.recovered);
@@ -105,12 +99,6 @@ export class ChartComponent implements OnInit, AfterViewInit {
     };
 
     this.getApiResponse(updateChart);
-  }
-
-  //Helper function
-
-  formatDate(date: string) {
-    return moment(date).format('YYYY-MM-DD');
   }
 
   resetValues() {

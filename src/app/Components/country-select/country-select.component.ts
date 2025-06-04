@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { DataService } from '../../Services/Data/data.service';
-import { Country } from '../../Interfaces/Country';
 
 @Component({
   selector: 'app-country-select',
@@ -16,21 +15,12 @@ export class CountrySelectComponent implements OnInit {
   constructor(private data: DataService) {}
 
   ngOnInit(): void {
-    this.getCountries();
+    this.data.getData().subscribe((object) => {
+      this.countries = object.data;
+    });
   }
 
   setSelectedCountry(object: MatSelectChange) {
     this.selectedCountry.emit(object.value);
-  }
-
-  getCountries(): void {
-    this.data.getData().subscribe((object) => {
-      console.log('object :>> ', object);
-      this.setCountries(object.data);
-    });
-  }
-  setCountries(data: any) {
-    console.log('in setCountries');
-    this.countries = data;
   }
 }

@@ -27,20 +27,16 @@ import { MatListModule } from '@angular/material/list';
 //Components
 import { AppComponent } from './app.component';
 import { NavBarComponent } from './Components/nav-bar/nav-bar.component';
-import { DatePickerComponent } from './Components/date-picker/date-picker.component';
 import { ChartComponent } from './Components/chart/chart.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CountrySelectComponent } from './Components/country-select/country-select.component';
-import { RadioButtonsComponent } from './Components/radio-buttons/radio-buttons.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavBarComponent,
-    DatePickerComponent,
     ChartComponent,
     CountrySelectComponent,
-    RadioButtonsComponent,
   ],
   bootstrap: [AppComponent],
   imports: [
@@ -55,7 +51,6 @@ import { RadioButtonsComponent } from './Components/radio-buttons/radio-buttons.
     MatToolbarModule,
     MatSelectModule,
     MatButtonModule,
-
     LayoutModule,
     MatSidenavModule,
     MatIconModule,

@@ -1,6 +1,4 @@
-<!--Sidenav Parent component-->
 <mat-sidenav-container class="sidenav-container">
-  <!--Sidenav-->
   <mat-sidenav
     #drawer
     class="sidenav"
@@ -9,39 +7,20 @@
     disableClose="false"
   >
     <mat-nav-list>
-      <!--Country Select-->
       <app-country-select (selectedCountry)="setSelectedCountry($event)">
       </app-country-select>
 
-      <!--Radio Buttons-->
-      <!-- <app-radio-buttons
-        (allDates)="hideDatePicker()"
-        (specificDates)="showDatePicker()"
-        (rangeSelection)="setRangeSelection($event)"
-      ></app-radio-buttons> -->
-
-      <!--Date Picker-->
-      <!-- <div *ngIf="datePickerVisible">
-        <app-date-picker
-          (startDate)="setDateFrom($event)"
-          (endDate)="setDateTo($event)"
-        ></app-date-picker>
-      </div> -->
-
-      <!--Show Graph Button-->
       <button
         mat-raised-button
         color="primary"
-        (click)="activateTheRightFunction(); drawer.toggle()"
-        [disabled]="disableButton()"
+        (click)="fetchDataPerCountryAll(); drawer.toggle()"
+        [disabled]="!selectedCountry"
         id="showGraph"
       >
         Show Graph
       </button>
     </mat-nav-list>
   </mat-sidenav>
-
-  <!--Sidenav Content-->
   <mat-sidenav-content>
     <mat-toolbar color="primary" id="toolbar">
       <button
