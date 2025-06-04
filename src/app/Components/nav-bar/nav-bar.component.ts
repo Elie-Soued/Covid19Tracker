@@ -8,13 +8,13 @@ import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 //Rxjs
 import { Observable } from 'rxjs';
 //External Library
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-    selector: 'app-nav-bar',
-    templateUrl: './nav-bar.component.html',
-    styleUrls: ['./nav-bar.component.css'],
-    standalone: false
+  selector: 'app-nav-bar',
+  templateUrl: './nav-bar.component.html',
+  styleUrls: ['./nav-bar.component.css'],
+  standalone: false,
 })
 export class NavBarComponent implements OnInit {
   //Inputs received from the date Picker and the buttons Components

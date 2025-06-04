@@ -4,13 +4,13 @@ import { TransferService } from 'src/app/Services/Transfer/transfer.service';
 import { CountryAllData } from 'src/app/Interfaces/CountryAllData';
 import datasets from './datasets';
 import 'chartjs-adapter-date-fns';
-import * as moment from 'moment';
+import moment from 'moment';
 
 @Component({
-    selector: 'app-chart',
-    templateUrl: './chart.component.html',
-    styleUrls: ['./chart.component.css'],
-    standalone: false
+  selector: 'app-chart',
+  templateUrl: './chart.component.html',
+  styleUrls: ['./chart.component.css'],
+  standalone: false,
 })
 export class ChartComponent implements OnInit, AfterViewInit {
   //properties to set
