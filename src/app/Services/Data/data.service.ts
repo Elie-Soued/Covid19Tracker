@@ -9,10 +9,11 @@ import { Response } from '../../Interfaces/Response';
 })
 export class DataService {
   //This endpoint gives the latest info per country for number of total confirmed and total deaths
-  private dataUrl = 'https://api.covid19api.com/summary';
+  private dataUrl = 'https://covid-api.com/api/regions';
+
   constructor(private http: HttpClient) {}
 
-  getData(): Observable<Response> {
+  getData(): Observable<any> {
     return this.http
       .get<Response>(this.dataUrl)
       .pipe(catchError(this.handleError));

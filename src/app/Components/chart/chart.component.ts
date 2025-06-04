@@ -36,16 +36,14 @@ export class ChartComponent implements OnInit, AfterViewInit {
       .subscribe((d) => this.setApiResponse(d, after));
   }
 
-  setApiResponse(apiResponse: CountryAllData[], after: Function) {
+  setApiResponse(apiResponse: any, after: Function) {
     this.resetValues();
-    for (let i = 0; i < apiResponse.length; i++) {
-      this.dates?.push(this.formatDate(apiResponse[i].Date));
-      this.confirmed.push(apiResponse[i].Confirmed);
-      this.deaths.push(apiResponse[i].Deaths);
-      this.recovered.push(apiResponse[i].Recovered);
-      this.active.push(apiResponse[i].Active);
-      this.country = apiResponse[i].Country;
-    }
+    this.dates?.push(this.formatDate(apiResponse.data.date));
+    this.confirmed.push(apiResponse.data.confirmed);
+    this.deaths.push(apiResponse.data.deaths);
+    this.recovered.push(apiResponse.data.recovered);
+    this.active.push(apiResponse.data.active);
+    this.country = apiResponse.data.country;
 
     after();
   }

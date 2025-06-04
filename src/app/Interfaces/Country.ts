@@ -9,6 +9,5 @@ export interface Country {
   TotalDeaths: number;
   NewRecovered: number;
   TotalRecovered: number;
-  Date: Date;
   Premium: {};
 }

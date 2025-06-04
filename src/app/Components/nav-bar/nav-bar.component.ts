@@ -70,8 +70,12 @@ export class NavBarComponent implements OnInit {
 
   //get all data from the beginning of the pandemic per country
   getDataPerCountryAll(): Observable<CountryAllData[]> {
-    const day1Url = `https://api.covid19api.com/total/dayone/country/${this.selectedCountry}`;
-    return this.http.get<CountryAllData[]>(day1Url);
+    const day1Url = `https://covid-api.com/api/reports/total?iso=${this.selectedCountry}`;
+    return this.http.get<CountryAllData[]>(day1Url, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
   }
   fetchDataPerCountryAll(): void {
     this.getDataPerCountryAll().subscribe((object) =>
@@ -108,12 +112,7 @@ export class NavBarComponent implements OnInit {
   }
 
   disableButton() {
-    if (
-      !this.selectedCountry ||
-      !this.rangeSelection ||
-      (this.rangeSelection === 'specificDates' &&
-        (!this.selectedDateFrom || !this.selectedDateTo))
-    ) {
+    if (!this.selectedCountry) {
       return true;
     } else {
       return false;
