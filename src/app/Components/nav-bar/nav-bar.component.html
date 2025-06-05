@@ -6,14 +6,14 @@
     [mode]="'over'"
     disableClose="false"
   >
-    <mat-nav-list>
+    <mat-nav-list style="width: 100%">
       <app-country-select (selectedCountry)="setSelectedCountry($event)">
       </app-country-select>
 
       <button
         mat-raised-button
         color="primary"
-        (click)="fetchDataPerCountryAll(); drawer.toggle()"
+        (click)="fetchCovidDataPerCountry(); drawer.toggle()"
         [disabled]="!selectedCountry"
         id="showGraph"
       >

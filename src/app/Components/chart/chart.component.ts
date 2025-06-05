@@ -1,17 +1,15 @@
 import {
   Component,
-  OnInit,
   ViewChild,
   AfterViewInit,
-  OnChanges,
+  OnDestroy,
+  ElementRef,
 } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-
-import datasets from './datasets';
+import { getConfig } from './chartConfiguration';
 import 'chartjs-adapter-date-fns';
-import moment from 'moment';
 import { Subscription } from 'rxjs';
-import { ChartService } from 'src/app/service/chart.service';
+import { ChartService } from 'src/app/Components/chart/chart.service';
 
 @Component({
   selector: 'app-chart',
@@ -19,100 +17,36 @@ import { ChartService } from 'src/app/service/chart.service';
   styleUrls: ['./chart.component.css'],
   standalone: false,
 })
-export class ChartComponent implements OnInit, AfterViewInit {
-  country?: string;
-  confirmed: number[] = [];
-  deaths: number[] = [];
-  recovered: number[] = [];
-  active: number[] = [];
-  dates?: string[];
-  @ViewChild('canvasChart') canvasChart: any;
+export class ChartComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('canvasChart') canvasChart!: ElementRef;
   private chartDataSub: Subscription = new Subscription();
-
-  chart: any;
+  chart!: Chart;
 
   constructor(private chartService: ChartService) {}
 
-  ngOnInit(): void {
-    Chart.register(...registerables);
+  ngAfterViewInit() {
+    this.initChart();
     this.chartDataSub = this.chartService.chartData$.subscribe((res) => {
-      if (Object.keys(res).length) {
-        this.resetValues();
-        this.confirmed.push(res.data.confirmed);
-        this.deaths.push(res.data.deaths);
-        this.recovered.push(res.data.recovered);
-        this.active.push(res.data.active);
-        this.country = res.data.country;
-        this.dates?.push(this.formatDate(res.data.date));
+      if (res && Object.keys(res).length) {
+        this.chart.data.labels = res.labels;
 
-        const updated = [
-          this.confirmed,
-          this.deaths,
-          this.active,
-          this.recovered,
-        ];
-
-        for (let i = 0; i < updated.length; i++) {
-          this.chart.data.datasets[i].data = updated[i];
+        for (let i = 0; i < res.datasets.length; i++) {
+          this.chart.data.datasets[i].data = res.datasets[i];
         }
-        this.chart.data.labels = this.dates;
 
         this.chart.update();
       }
     });
   }
 
-  ngAfterViewInit() {
+  initChart() {
+    Chart.register(...registerables);
     const canvas = this.canvasChart.nativeElement;
-    this.chart = new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels: [''],
-        datasets,
-      },
-      options: {
-        plugins: {
-          legend: {
-            onHover() {
-              canvas.style.cursor = 'pointer';
-            },
-            onLeave() {
-              canvas.style.cursor = 'auto';
-            },
-            labels: {
-              usePointStyle: true,
-              pointStyle: 'circle',
-            },
-          },
-        },
-
-        responsive: true,
-        maintainAspectRatio: false,
-
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-          x: {
-            type: 'time',
-            time: {
-              minUnit: 'day',
-            },
-          },
-        },
-      },
-    });
+    const config = getConfig();
+    this.chart = new Chart(canvas, config);
   }
 
-  resetValues() {
-    this.dates = [];
-    this.confirmed = [];
-    this.deaths = [];
-    this.recovered = [];
-    this.active = [];
-  }
-
-  formatDate(date: string) {
-    return moment(date).format('YYYY-MM-DD');
+  ngOnDestroy() {
+    this.chartDataSub.unsubscribe();
   }
 }
