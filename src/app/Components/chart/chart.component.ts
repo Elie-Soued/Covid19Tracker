@@ -1,9 +1,17 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+  OnChanges,
+} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { TransferService } from 'src/app/Services/Transfer/transfer.service';
+
 import datasets from './datasets';
 import 'chartjs-adapter-date-fns';
 import moment from 'moment';
+import { Subscription } from 'rxjs';
+import { ChartService } from 'src/app/service/chart.service';
 
 @Component({
   selector: 'app-chart',
@@ -19,35 +27,44 @@ export class ChartComponent implements OnInit, AfterViewInit {
   active: number[] = [];
   dates?: string[];
   @ViewChild('canvasChart') canvasChart: any;
+  private chartDataSub: Subscription = new Subscription();
 
-  constructor(private transferService: TransferService) {}
+  chart: any;
+
+  constructor(private chartService: ChartService) {}
 
   ngOnInit(): void {
     Chart.register(...registerables);
-  }
+    this.chartDataSub = this.chartService.chartData$.subscribe((res) => {
+      if (Object.keys(res).length) {
+        this.resetValues();
+        this.confirmed.push(res.data.confirmed);
+        this.deaths.push(res.data.deaths);
+        this.recovered.push(res.data.recovered);
+        this.active.push(res.data.active);
+        this.country = res.data.country;
+        this.dates?.push(this.formatDate(res.data.date));
 
-  getApiResponse(after: Function) {
-    this.transferService.receiveInfo().subscribe((d) => {
-      if (Object.values(d).length) this.setApiResponse(d, after);
+        const updated = [
+          this.confirmed,
+          this.deaths,
+          this.active,
+          this.recovered,
+        ];
+
+        for (let i = 0; i < updated.length; i++) {
+          this.chart.data.datasets[i].data = updated[i];
+        }
+        this.chart.data.labels = this.dates;
+
+        this.chart.update();
+      }
     });
-  }
-
-  setApiResponse(apiResponse: any, after: Function) {
-    this.resetValues();
-    this.confirmed.push(apiResponse.data.confirmed);
-    this.deaths.push(apiResponse.data.deaths);
-    this.recovered.push(apiResponse.data.recovered);
-    this.active.push(apiResponse.data.active);
-    this.country = apiResponse.data.country;
-    this.dates?.push(this.formatDate(apiResponse.data.date));
-
-    after();
   }
 
   ngAfterViewInit() {
     const canvas = this.canvasChart.nativeElement;
-
-    const myChart = new Chart(canvas, {
+    this.chart = new Chart(canvas, {
       type: 'bar',
       data: {
         labels: [''],
@@ -85,26 +102,6 @@ export class ChartComponent implements OnInit, AfterViewInit {
         },
       },
     });
-
-    const updateChart = () => {
-      const updated = [
-        this.confirmed,
-        this.deaths,
-        this.active,
-        this.recovered,
-      ];
-      for (let i = 0; i < updated.length; i++) {
-        myChart.data.datasets[i].data = updated[i];
-      }
-      myChart.data.labels = this.dates;
-      myChart.update();
-    };
-
-    this.getApiResponse(updateChart);
-  }
-
-  formatDate(date: string) {
-    return moment(date).format('YYYY-MM-DD');
   }
 
   resetValues() {
@@ -113,5 +110,9 @@ export class ChartComponent implements OnInit, AfterViewInit {
     this.deaths = [];
     this.recovered = [];
     this.active = [];
+  }
+
+  formatDate(date: string) {
+    return moment(date).format('YYYY-MM-DD');
   }
 }

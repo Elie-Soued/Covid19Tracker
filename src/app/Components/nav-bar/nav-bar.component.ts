@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TransferService } from 'src/app/Services/Transfer/transfer.service';
+import { ChartService } from 'src/app/service/chart.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -12,10 +12,7 @@ export class NavBarComponent {
   selectedCountry?: string;
   @Output() setChartData = new EventEmitter<any>();
 
-  constructor(
-    private http: HttpClient,
-    private transferService: TransferService
-  ) {}
+  constructor(private http: HttpClient, private chartService: ChartService) {}
 
   setSelectedCountry(object: string) {
     this.selectedCountry = object;
@@ -30,7 +27,7 @@ export class NavBarComponent {
         },
       })
       .subscribe((object) => {
-        this.transferService.sendInfo(object);
+        this.chartService.sendChartData(object);
       });
   }
 }

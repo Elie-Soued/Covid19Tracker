@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TransferService } from './transfer.service';
+import { ChartService } from './chart.service';
 
-describe('TransferService', () => {
-  let service: TransferService;
+describe('ChartService', () => {
+  let service: ChartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TransferService);
+    service = TestBed.inject(ChartService);
   });
 
   it('should be created', () => {
