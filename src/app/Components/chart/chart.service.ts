@@ -18,12 +18,7 @@ export class ChartService {
   formatData(raw: rawCountryData) {
     return {
       labels: [moment(raw.data.date).format('YYYY-MM-DD')],
-      datasets: [
-        [raw.data.confirmed],
-        [raw.data.deaths],
-        [raw.data.recovered],
-        [raw.data.active],
-      ],
+      datasets: [[raw.data.confirmed], [raw.data.deaths], [raw.data.active]],
     };
   }
 }

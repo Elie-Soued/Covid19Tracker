@@ -28,14 +28,6 @@ export const getConfig = (): ChartConfiguration => ({
         borderColor: 'rgba(255, 206, 86, 1)',
         borderWidth: 2,
       },
-
-      {
-        label: 'Recovered',
-        data: [],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 2,
-      },
     ],
   },
   options: {
