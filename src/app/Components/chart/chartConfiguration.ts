@@ -6,7 +6,7 @@ export const getConfig = (): ChartConfiguration => ({
     labels: [],
     datasets: [
       {
-        label: 'Confirmed',
+        label: 'Cases',
         data: [],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
@@ -22,7 +22,7 @@ export const getConfig = (): ChartConfiguration => ({
       },
 
       {
-        label: 'Active',
+        label: 'Recovered',
         data: [],
         backgroundColor: 'rgba(255, 206, 86, 0.2)',
         borderColor: 'rgba(255, 206, 86, 1)',

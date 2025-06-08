@@ -1,8 +1,8 @@
 <mat-form-field appearance="fill">
-  <mat-label>Select Country</mat-label>
+  <mat-label>Select state</mat-label>
   <mat-select (selectionChange)="setSelectedCountry($event)" required>
-    <mat-option *ngFor="let element of countries" [value]="element.iso3Code">
-      {{ element.location }}
+    <mat-option *ngFor="let element of states" [value]="element.code">
+      {{ element.name }}
     </mat-option>
   </mat-select>
 </mat-form-field>

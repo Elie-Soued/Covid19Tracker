@@ -10,6 +10,7 @@ import { getConfig } from './chartConfiguration';
 import 'chartjs-adapter-date-fns';
 import { Subscription } from 'rxjs';
 import { ChartService } from 'src/app/Components/chart/chart.service';
+import { type formattedData } from './chart.interface';
 
 @Component({
   selector: 'app-chart',
@@ -26,24 +27,28 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.initChart();
+    this.chartService.getInitialData();
     this.chartDataSub = this.chartService.chartData$.subscribe((res) => {
-      if (res && Object.keys(res).length) {
-        this.chart.data.labels = res.labels;
-
-        for (let i = 0; i < res.datasets.length; i++) {
-          this.chart.data.datasets[i].data = res.datasets[i];
-        }
-
-        this.chart.update();
-      }
+      this.updateChart(res);
     });
   }
 
   initChart() {
     Chart.register(...registerables);
     const canvas = this.canvasChart.nativeElement;
-    const config = getConfig();
-    this.chart = new Chart(canvas, config);
+    this.chart = new Chart(canvas, getConfig());
+  }
+
+  updateChart(res: formattedData) {
+    if (res && Object.keys(res).length) {
+      this.chart.data.labels = res.labels;
+
+      for (let i = 0; i < res.datasets.length; i++) {
+        this.chart.data.datasets[i].data = res.datasets[i];
+      }
+
+      this.chart.update();
+    }
   }
 
   ngOnDestroy() {
