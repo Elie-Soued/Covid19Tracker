@@ -23,6 +23,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 //Components
 import { AppComponent } from './app.component';
@@ -57,6 +58,7 @@ import { CountrySelectComponent } from './Components/country-select/country-sele
     MatListModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatProgressSpinnerModule,
     FormsModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],

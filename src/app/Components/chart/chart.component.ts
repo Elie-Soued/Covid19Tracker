@@ -22,6 +22,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasChart') canvasChart!: ElementRef;
   private chartDataSub: Subscription = new Subscription();
   chart!: Chart;
+  loading = true;
 
   constructor(private chartService: ChartService) {}
 
@@ -29,6 +30,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
     this.initChart();
     this.chartService.getInitialData();
     this.chartDataSub = this.chartService.chartData$.subscribe((res) => {
+      this.loading = false;
       this.updateChart(res);
     });
   }
