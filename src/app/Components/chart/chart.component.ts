@@ -21,6 +21,8 @@ import { type formattedData } from './chart.interface';
 export class ChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasChart') canvasChart!: ElementRef;
   private chartDataSub: Subscription = new Subscription();
+  private loadSub: Subscription = new Subscription();
+
   chart!: Chart;
   loading = true;
 
@@ -29,6 +31,11 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.initChart();
     this.chartService.getInitialData();
+
+    this.loadSub = this.chartService.load$.subscribe(() => {
+      this.loading = true;
+    });
+
     this.chartDataSub = this.chartService.chartData$.subscribe((res) => {
       this.loading = false;
       this.updateChart(res);
