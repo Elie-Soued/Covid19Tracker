@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { NavBarComponent } from './nav-bar.component';
+import { By } from '@angular/platform-browser';
+import { MatSidenav } from '@angular/material/sidenav';
 
 describe('NavBarComponent', () => {
   let component: NavBarComponent;
@@ -23,10 +25,22 @@ describe('NavBarComponent', () => {
   });
 
   it('Make sure the component is correctly rendered', () => {
-    // write tests
+    const sidenav_container = fixture.debugElement.query(
+      By.css('mat-sidenav-container ')
+    );
+    const sidenav = fixture.debugElement.query(By.css('mat-sidenav'));
+    const navlist = fixture.debugElement.query(By.css('mat-nav-list'));
+    const country_select = fixture.debugElement.query(
+      By.css('app-country-select')
+    );
+
+    expect(sidenav_container).toBeTruthy();
+    expect(sidenav).toBeTruthy();
+    expect(navlist).toBeTruthy();
+    expect(country_select).toBeTruthy();
   });
 
   it('check that the correct call was executed', () => {
-    // write test
+    console.log('component :>> ', component);
   });
 });

@@ -1,7 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync,
+} from '@angular/core/testing';
 import { CountrySelectComponent } from './country-select.component';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
+import { By } from '@angular/platform-browser';
+import { MatSelectChange } from '@angular/material/select';
 
 describe('CountrySelectComponent', () => {
   let component: CountrySelectComponent;
@@ -10,7 +17,7 @@ describe('CountrySelectComponent', () => {
 
   beforeEach(async () => {
     httpClient = jasmine.createSpyObj('HttpClient', ['get']);
-    httpClient.get.and.returnValue(of({ data: [] })); // ✅ Return observable
+    httpClient.get.and.returnValue(of({ data: [] }));
 
     await TestBed.configureTestingModule({
       declarations: [CountrySelectComponent],
@@ -25,14 +32,13 @@ describe('CountrySelectComponent', () => {
   });
 
   it('Make sure the countrySelector component is correctly rendered', () => {
-    // Test to write
+    const label = fixture.debugElement.query(By.css('mat-label'));
+    const select = fixture.debugElement.query(By.css('mat-select'));
+    const option = fixture.debugElement.query(By.css('mat-option'));
+    expect(label).toBeTruthy();
+    expect(select).toBeTruthy();
+    expect(option).toBeTruthy();
   });
 
-  it('Fetch all countries on Init', () => {
-    // Test to write
-  });
-
-  it('Check that the country is properly selected', () => {
-    // Test to write
-  });
+  it('Check that the country is properly selected', () => {});
 });
