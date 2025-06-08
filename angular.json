@@ -61,6 +61,9 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "github-actions": {
+              "outputPath": "dist/covid19Tracker"
             }
           },
           "defaultConfiguration": "production"
