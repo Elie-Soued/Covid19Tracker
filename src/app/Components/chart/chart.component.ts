@@ -20,26 +20,37 @@ import { type formattedData } from './chart.interface';
 })
 export class ChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasChart') canvasChart!: ElementRef;
-  private chartDataSub: Subscription = new Subscription();
+  private dataSub: Subscription = new Subscription();
   private loadSub: Subscription = new Subscription();
+  private locationSub: Subscription = new Subscription();
 
   chart!: Chart;
   loading = true;
+  location = 'Germany';
 
   constructor(private chartService: ChartService) {}
 
-  ngAfterViewInit() {
-    this.initChart();
+  ngOnInit() {
     this.chartService.getInitialData();
 
     this.loadSub = this.chartService.load$.subscribe(() => {
       this.loading = true;
     });
 
-    this.chartDataSub = this.chartService.chartData$.subscribe((res) => {
+    this.locationSub = this.chartService.name$.subscribe((res) => {
+      if (res) {
+        this.location = res;
+      }
+    });
+
+    this.dataSub = this.chartService.data$.subscribe((res) => {
       this.loading = false;
       this.updateChart(res);
     });
+  }
+
+  ngAfterViewInit() {
+    this.initChart();
   }
 
   initChart() {
@@ -61,6 +72,8 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.chartDataSub.unsubscribe();
+    this.dataSub.unsubscribe();
+    this.loadSub.unsubscribe();
+    this.locationSub.unsubscribe();
   }
 }

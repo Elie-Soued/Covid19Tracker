@@ -1,6 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ChartService } from './Components/chart/chart.service';
-import { Subscription } from 'rxjs';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,22 +6,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./app.component.css'],
   standalone: false,
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   title = 'Covid19Tracker';
-  location = 'Germany';
-  private chartDataSub: Subscription = new Subscription();
-
-  constructor(private chartService: ChartService) {}
-
-  ngOnInit() {
-    this.chartDataSub = this.chartService.state$.subscribe((res) => {
-      if (res) {
-        this.location = res;
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.chartDataSub.unsubscribe();
-  }
 }

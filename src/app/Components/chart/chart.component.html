@@ -1,6 +1,10 @@
+@if (loading) {
+<mat-spinner />
+
+}
 <div id="divChart">
-  @if(loading){
-  <mat-spinner></mat-spinner>
-  }
-  <canvas #canvasChart></canvas>
+  <canvas #canvasChart [style.display]="loading ? 'none' : 'block'"></canvas>
+  <p [style.display]="loading ? 'none' : 'block'">
+    Latest covid figures in {{ location }}
+  </p>
 </div>

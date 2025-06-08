@@ -14,12 +14,12 @@ import {
   providedIn: 'root',
 })
 export class ChartService {
-  private chartData = new BehaviorSubject<any>({});
-  private state = new BehaviorSubject<string>('');
+  private data = new BehaviorSubject<any>({});
+  private name = new BehaviorSubject<string>('');
   private isLoading = new Subject<void>();
 
-  public chartData$ = this.chartData.asObservable();
-  public state$ = this.state.asObservable();
+  public data$ = this.data.asObservable();
+  public name$ = this.name.asObservable();
   public load$ = this.isLoading.asObservable();
 
   private URL_Germany = 'https://api.corona-zahlen.org/germany';
@@ -32,7 +32,7 @@ export class ChartService {
       .get<initialRawDataGermany>(this.URL_Germany)
       .subscribe((rawData) => {
         const formattedData = this.formatData(rawData);
-        this.chartData.next(formattedData);
+        this.data.next(formattedData);
       });
   }
 
@@ -43,8 +43,8 @@ export class ChartService {
 
     this.http.get<rawDataPerState>(url).subscribe((rawData) => {
       const formattedData = this.formatData(rawData.data[`${selectedState}`]);
-      this.chartData.next(formattedData);
-      this.state.next(rawData.data[selectedState].name);
+      this.data.next(formattedData);
+      this.name.next(rawData.data[selectedState].name);
     });
   }
 
