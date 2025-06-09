@@ -11,12 +11,14 @@ import 'chartjs-adapter-date-fns';
 import { Subscription } from 'rxjs';
 import { ChartService } from 'src/app/Components/chart/chart.service';
 import { type formattedData } from './chart.interface';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [MatProgressSpinnerModule],
 })
 export class ChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasChart') canvasChart!: ElementRef;

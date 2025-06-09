@@ -13,7 +13,6 @@ describe('NavBarComponent', () => {
     httpClient = jasmine.createSpyObj('HttpClient', ['get']);
 
     await TestBed.configureTestingModule({
-      declarations: [NavBarComponent],
       providers: [{ provide: HttpClient, useValue: httpClient }],
     }).compileComponents();
   });

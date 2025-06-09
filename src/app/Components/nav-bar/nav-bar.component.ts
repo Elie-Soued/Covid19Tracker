@@ -1,11 +1,31 @@
 import { Component } from '@angular/core';
 import { ChartService } from 'src/app/Components/chart/chart.service';
+import { CountrySelectComponent } from '../country-select/country-select.component';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavContent,
+} from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatIcon } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css'],
-  standalone: false,
+  standalone: true,
+  imports: [
+    CountrySelectComponent,
+    MatSidenav,
+    MatSidenavContainer,
+    MatListModule,
+    MatSidenavContent,
+    MatToolbar,
+    MatIcon,
+    MatButtonModule,
+  ],
 })
 export class NavBarComponent {
   selectedState?: string;

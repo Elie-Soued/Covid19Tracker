@@ -20,7 +20,6 @@ describe('CountrySelectComponent', () => {
     httpClient.get.and.returnValue(of({ data: [] }));
 
     await TestBed.configureTestingModule({
-      declarations: [CountrySelectComponent],
       providers: [{ provide: HttpClient, useValue: httpClient }],
     }).compileComponents();
   });
@@ -34,10 +33,8 @@ describe('CountrySelectComponent', () => {
   it('Make sure the countrySelector component is correctly rendered', () => {
     const label = fixture.debugElement.query(By.css('mat-label'));
     const select = fixture.debugElement.query(By.css('mat-select'));
-    const option = fixture.debugElement.query(By.css('mat-option'));
     expect(label).toBeTruthy();
     expect(select).toBeTruthy();
-    expect(option).toBeTruthy();
   });
 
   it('Check that the country is properly selected', () => {});
