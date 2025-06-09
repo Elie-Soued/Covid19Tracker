@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ChartService } from 'src/app/Components/chart/chart.service';
-import { CountrySelectComponent } from '../country-select/country-select.component';
+import { StateSelectComponent } from '../state-select/state-select.component';
 import {
   MatSidenav,
   MatSidenavContainer,
@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./nav-bar.component.css'],
   standalone: true,
   imports: [
-    CountrySelectComponent,
+    StateSelectComponent,
     MatSidenav,
     MatSidenavContainer,
     MatListModule,

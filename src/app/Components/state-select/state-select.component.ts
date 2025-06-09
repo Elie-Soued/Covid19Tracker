@@ -9,13 +9,13 @@ import {
 import state_codes from './state-codes';
 
 @Component({
-  selector: 'app-country-select',
-  templateUrl: './country-select.component.html',
-  styleUrls: ['./country-select.component.css'],
+  selector: 'app-state-select',
+  templateUrl: './state-select.component.html',
+  styleUrls: ['./state-select.component.css'],
   standalone: true,
   imports: [MatFormField, MatLabel, MatSelect, MatOption],
 })
-export class CountrySelectComponent {
+export class StateSelectComponent {
   states: { name: string; code: string }[] = state_codes;
   @Output() selectedCountry = new EventEmitter<string>();
 
