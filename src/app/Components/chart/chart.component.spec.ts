@@ -3,15 +3,16 @@ import { ChartComponent } from './chart.component';
 import { ChartService } from './chart.service';
 import { Subject } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { formattedData } from './chart.interface';
 
 describe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
   let chartService: jasmine.SpyObj<ChartService>;
 
-  const mockLoad$ = new Subject<void>();
+  const mockLoad$ = new Subject<boolean>();
   const mockName$ = new Subject<string>();
-  const mockData$ = new Subject<any>();
+  const mockData$ = new Subject<formattedData>();
 
   beforeEach(async () => {
     chartService = jasmine.createSpyObj('ChartService', ['getInitialData'], {
@@ -34,7 +35,10 @@ describe('ChartComponent', () => {
   it('make sure the canvas is correctly rendered', () => {
     mockData$.next({
       labels: ['Jan', 'Feb'],
-      datasets: [{ data: [1, 2] }, { data: [3, 4] }],
+      datasets: [
+        [1, 2],
+        [3, 4],
+      ],
     });
     fixture.detectChanges();
     const canvas = fixture.debugElement.query(By.css('canvas')).nativeElement;
@@ -44,7 +48,7 @@ describe('ChartComponent', () => {
   });
 
   it('make sure the loader is correctly rendered', () => {
-    mockLoad$.next();
+    mockLoad$.next(true);
     fixture.detectChanges();
     const loader = fixture.debugElement.query(
       By.css('mat-spinner')
