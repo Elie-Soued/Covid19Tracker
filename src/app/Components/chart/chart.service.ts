@@ -14,9 +14,9 @@ import {
   providedIn: 'root',
 })
 export class ChartService {
-  private data = new BehaviorSubject<any>({});
-  private name = new BehaviorSubject<string>('');
-  private isLoading = new Subject<void>();
+  private data = new Subject<formattedData>();
+  private name = new Subject<string>();
+  private isLoading = new Subject<boolean>();
 
   public data$ = this.data.asObservable();
   public name$ = this.name.asObservable();
@@ -38,9 +38,7 @@ export class ChartService {
 
   fetchCovidDataPerState(selectedState: string): void {
     const url = `${this.URL_Per_State}/${selectedState}`;
-
-    this.isLoading.next();
-
+    this.isLoading.next(true);
     this.http.get<rawDataPerState>(url).subscribe((rawData) => {
       const formattedData = this.formatData(rawData.data[`${selectedState}`]);
       this.data.next(formattedData);

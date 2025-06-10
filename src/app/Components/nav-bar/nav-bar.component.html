@@ -7,7 +7,10 @@
     disableClose="false"
   >
     <mat-nav-list style="width: 100%">
-      <app-state-select (selectedCountry)="setSelectedState($event)">
+      <app-state-select
+        (selectedCountry)="setSelectedState($event)"
+        style="width: 100%"
+      >
       </app-state-select>
 
       <button
