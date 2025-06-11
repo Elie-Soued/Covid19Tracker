@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, map, forkJoin } from 'rxjs';
+import { Subject, map, forkJoin, tap } from 'rxjs';
 import moment from 'moment';
 import { HttpClient } from '@angular/common/http';
 import state_codes from '../state-select/state-codes';
@@ -16,13 +16,13 @@ import {
   providedIn: 'root',
 })
 export class ChartService {
-  public statesData: stateData = {};
+  private statesData: stateData = {};
   private data = new Subject<{ name: string; data: formattedData }>();
   public data$ = this.data.asObservable();
 
   constructor(private http: HttpClient) {}
 
-  async getGermanyData(): Promise<void> {
+  getGermanyData(): void {
     const URL_Germany = 'https://api.corona-zahlen.org/germany';
     this.http.get<initialRawDataGermany>(URL_Germany).subscribe((rawData) => {
       const formattedData = this.formatData(rawData);
@@ -35,7 +35,7 @@ export class ChartService {
     this.preloadStateData();
   }
 
-  preloadStateData() {
+  preloadStateData(): void {
     const URL_Per_State = 'https://api.corona-zahlen.org/states';
     const observables = state_codes.map((state) => {
       const url = `${URL_Per_State}/${state.code}`;

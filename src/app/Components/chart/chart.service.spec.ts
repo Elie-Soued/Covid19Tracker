@@ -1,23 +1,33 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 import { ChartService } from './chart.service';
-import { HttpClient } from '@angular/common/http';
-import { of, pipe } from 'rxjs';
+import {
+  provideHttpClientTesting,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+
 import state_codes from '../state-select/state-codes';
+import { provideHttpClient } from '@angular/common/http';
+
+provideHttpClientTesting;
 
 describe('ChartService', () => {
   let service: ChartService;
-  let httpClient: jasmine.SpyObj<HttpClient>;
+  let httpTesting: HttpTestingController;
 
   beforeEach(() => {
-    httpClient = jasmine.createSpyObj('HttpClient', ['get']);
-
     TestBed.configureTestingModule({
-      providers: [{ provide: HttpClient, useValue: httpClient }],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(ChartService);
+    httpTesting = TestBed.inject(HttpTestingController);
   });
 
   it('making sure getGermanyData get the values related to Germany and calls preloadStateData', () => {
+    const formattedData = {
+      labels: ['2025-06-09'],
+      datasets: [[39060164], [187696], [38870607]],
+    };
+
     const rawData = {
       cases: 39060164,
       deaths: 187696,
@@ -58,20 +68,16 @@ describe('ChartService', () => {
         lastCheckedForUpdate: '2025-06-10T10:59:18.313Z',
       },
     };
-    const formattedData = {
-      labels: ['2025-06-09'],
-      datasets: [[39060164], [187696], [38870607]],
-    };
 
     const preloadStateDataSpy = spyOn(service, 'preloadStateData');
 
-    httpClient.get.and.returnValue(of(rawData));
-
     service.getGermanyData();
 
-    expect(httpClient.get).toHaveBeenCalledWith(
-      'https://api.corona-zahlen.org/germany'
-    );
+    const req = httpTesting.expectOne('https://api.corona-zahlen.org/germany');
+
+    expect(req.request.method).toBe('GET');
+
+    req.flush(rawData);
 
     expect(preloadStateDataSpy).toHaveBeenCalled();
 
@@ -81,7 +87,46 @@ describe('ChartService', () => {
   });
 
   it('making sure preloadData creates statesData', () => {
-    // to write later
+    service.preloadStateData();
+
+    // Respond to all state requests
+    state_codes.forEach((state) => {
+      const req = httpTesting.expectOne(
+        `https://api.corona-zahlen.org/states/${state.code}`
+      );
+
+      const mockRawData = {
+        data: {
+          [state.code]: {
+            name: `Mock ${state.code}`,
+            cases: 1000,
+            deaths: 10,
+            recovered: 900,
+            hospitalization: { date: '2024-01-01' },
+          },
+        },
+      };
+
+      req.flush(mockRawData);
+    });
+
+    // Now test the public method that uses statesData internally
+    const exampleStateCode = state_codes[0].code; // e.g., 'BW'
+    const expected = {
+      name: `Mock ${exampleStateCode}`,
+      data: {
+        labels: ['2024-01-01'],
+        datasets: [[1000], [10], [900]],
+      },
+    };
+
+    // subscribe to data$ to see what gets emitted
+    service.data$.subscribe((res) => {
+      expect(res).toEqual(expected);
+    });
+
+    // trigger fetch
+    service.fetchCovidDataPerState(exampleStateCode);
   });
 
   it('making sure formatData is working correctly', () => {
@@ -119,7 +164,7 @@ describe('ChartService', () => {
     );
   });
 
-  it('making sure fetchCovidDataPerState is working correctly', fakeAsync(() => {
+  it('making sure fetchCovidDataPerState is working correctly', () => {
     const statesData = {
       BW: {
         name: 'Baden-Württemberg',
@@ -135,5 +180,5 @@ describe('ChartService', () => {
     service.data$.subscribe((res) => {
       expect(JSON.stringify(res)).toEqual(JSON.stringify(statesData['BW']));
     });
-  }));
+  });
 });
