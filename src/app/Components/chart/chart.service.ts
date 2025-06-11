@@ -54,8 +54,6 @@ export class ChartService {
           name: res.name,
           data: res.data,
         };
-
-        console.log('this.statesData :>> ', this.statesData);
       });
     });
   }
