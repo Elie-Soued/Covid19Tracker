@@ -1,7 +1,8 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ChartService } from './chart.service';
 import { HttpClient } from '@angular/common/http';
-import { of } from 'rxjs';
+import { of, pipe } from 'rxjs';
+import state_codes from '../state-select/state-codes';
 
 describe('ChartService', () => {
   let service: ChartService;
@@ -16,113 +17,7 @@ describe('ChartService', () => {
     service = TestBed.inject(ChartService);
   });
 
-  it('making sure fetchCovidDataPerState is working correctly', fakeAsync(() => {
-    let receivedName = '';
-    let receivedData = {};
-
-    const rawData = {
-      data: {
-        BY: {
-          id: 9,
-          name: 'Bayern',
-          population: 13369393,
-          cases: 6873938,
-          deaths: 31434,
-          casesPerWeek: 133,
-          deathsPerWeek: 0,
-          recovered: 6842123,
-          abbreviation: 'BY',
-          weekIncidence: 0.9948095624087047,
-          casesPer100k: 51415.48311131253,
-          delta: {
-            cases: 0,
-            deaths: 0,
-            recovered: 27,
-            weekIncidence: -0.291711074691,
-          },
-          hospitalization: {
-            cases7Days: 48,
-            incidence7Days: 0.36,
-            date: '2025-06-10T00:00:00.000Z',
-            lastUpdate: '2025-06-10T05:15:19.000Z',
-          },
-        },
-      },
-      meta: {
-        source: 'Robert Koch-Institut',
-        contact: 'Marlon Lueckert (m.lueckert@me.com)',
-        info: 'https://github.com/marlon360/rki-covid-api',
-        lastUpdate: '2025-06-10T05:03:14.000Z',
-        lastCheckedForUpdate: '2025-06-10T10:56:34.803Z',
-      },
-    };
-
-    const formattedData = {
-      labels: ['2025-06-10'],
-      datasets: [[6873938], [31434], [6842123]],
-    };
-
-    service.name$.subscribe((name) => {
-      receivedName = name;
-    });
-
-    service.data$.subscribe((data) => {
-      receivedData = data;
-    });
-
-    httpClient.get.and.returnValue(of(rawData));
-
-    service.fetchCovidDataPerState('BY');
-
-    tick();
-
-    expect(receivedName).toEqual('Bayern');
-
-    expect(httpClient.get).toHaveBeenCalledWith(
-      'https://api.corona-zahlen.org/states/BY'
-    );
-
-    expect(JSON.stringify(receivedData)).toEqual(JSON.stringify(formattedData));
-  }));
-
-  it('making sure formatData is working correctly', () => {
-    const mockData = {
-      id: 11,
-      name: 'Berlin',
-      population: 3755251,
-      cases: 1470297,
-      deaths: 6398,
-      casesPerWeek: 32,
-      deathsPerWeek: 0,
-      recovered: 1463783,
-      abbreviation: 'BE',
-      weekIncidence: 0.8521401099420518,
-      casesPer100k: 39153.0952258584,
-      delta: {
-        cases: 0,
-        deaths: 0,
-        recovered: 7,
-        weekIncidence: 4.2e-11,
-      },
-      hospitalization: {
-        cases7Days: 6,
-        incidence7Days: 0.16,
-        date: '2025-06-09T00:00:00.000Z',
-        lastUpdate: '2025-06-09T05:15:21.000Z',
-      },
-    };
-
-    const formattedData = {
-      labels: ['2025-06-09'],
-      datasets: [[1470297], [6398], [1463783]],
-    };
-
-    expect(JSON.stringify(service.formatData(mockData))).toEqual(
-      JSON.stringify(formattedData)
-    );
-  });
-
-  it('making sure getInitialData is working correctly', () => {
+  it('making sure getGermanyData get the values related to Germany and calls preloadStateData', () => {
     const rawData = {
       cases: 39060164,
       deaths: 187696,
@@ -163,21 +58,82 @@ describe('ChartService', () => {
         lastCheckedForUpdate: '2025-06-10T10:59:18.313Z',
       },
     };
-
     const formattedData = {
       labels: ['2025-06-09'],
       datasets: [[39060164], [187696], [38870607]],
     };
 
+    const preloadStateDataSpy = spyOn(service, 'preloadStateData');
+
     httpClient.get.and.returnValue(of(rawData));
 
-    service.getInitialData();
+    service.getGermanyData();
 
     expect(httpClient.get).toHaveBeenCalledWith(
       'https://api.corona-zahlen.org/germany'
     );
+
+    expect(preloadStateDataSpy).toHaveBeenCalled();
+
     service.data$.subscribe((res) => {
       expect(JSON.stringify(res)).toEqual(JSON.stringify(formattedData));
     });
   });
+
+  it('making sure preloadData creates statesData', () => {
+    // to write later
+  });
+
+  it('making sure formatData is working correctly', () => {
+    const mockData = {
+      id: 11,
+      name: 'Berlin',
+      population: 3755251,
+      cases: 1470297,
+      deaths: 6398,
+      casesPerWeek: 32,
+      deathsPerWeek: 0,
+      recovered: 1463783,
+      abbreviation: 'BE',
+      weekIncidence: 0.8521401099420518,
+      casesPer100k: 39153.0952258584,
+      delta: {
+        cases: 0,
+        deaths: 0,
+        recovered: 7,
+        weekIncidence: 4.2e-11,
+      },
+      hospitalization: {
+        cases7Days: 6,
+        incidence7Days: 0.16,
+        date: '2025-06-09T00:00:00.000Z',
+        lastUpdate: '2025-06-09T05:15:21.000Z',
+      },
+    };
+    const formattedData = {
+      labels: ['2025-06-09'],
+      datasets: [[1470297], [6398], [1463783]],
+    };
+    expect(JSON.stringify(service.formatData(mockData))).toEqual(
+      JSON.stringify(formattedData)
+    );
+  });
+
+  it('making sure fetchCovidDataPerState is working correctly', fakeAsync(() => {
+    const statesData = {
+      BW: {
+        name: 'Baden-Württemberg',
+        data: {
+          labels: ['2025-06-11'],
+          datasets: [[5141754], [20977], [5120602]],
+        },
+      },
+    };
+
+    service.fetchCovidDataPerState('BW');
+
+    service.data$.subscribe((res) => {
+      expect(JSON.stringify(res)).toEqual(JSON.stringify(statesData['BW']));
+    });
+  }));
 });

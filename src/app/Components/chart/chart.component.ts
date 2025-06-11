@@ -23,9 +23,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 export class ChartComponent implements AfterViewInit, OnDestroy {
   @ViewChild('canvasChart') canvasChart!: ElementRef;
   private dataSub: Subscription = new Subscription();
-  private loadSub: Subscription = new Subscription();
-  private locationSub: Subscription = new Subscription();
-
   chart!: Chart;
   loading = true;
   location = 'Germany';
@@ -33,21 +30,11 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
   constructor(private chartService: ChartService) {}
 
   ngOnInit() {
-    this.chartService.getInitialData();
-
-    this.loadSub = this.chartService.load$.subscribe(() => {
-      this.loading = true;
-    });
-
-    this.locationSub = this.chartService.name$.subscribe((res) => {
-      if (res) {
-        this.location = res;
-      }
-    });
-
+    this.chartService.getGermanyData();
     this.dataSub = this.chartService.data$.subscribe((res) => {
       this.loading = false;
-      this.updateChart(res);
+      this.location = res.name;
+      this.updateChart(res.data);
     });
   }
 
@@ -75,7 +62,5 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.dataSub.unsubscribe();
-    this.loadSub.unsubscribe();
-    this.locationSub.unsubscribe();
   }
 }

@@ -83,9 +83,17 @@ interface formattedData {
   datasets: number[][];
 }
 
+interface stateData {
+  [stateCode: string]: {
+    name: string;
+    data: formattedData;
+  };
+}
+
 export {
   initialRawDataGermany,
   rawDataPerState,
   stateCovidStats,
   formattedData,
+  stateData,
 };

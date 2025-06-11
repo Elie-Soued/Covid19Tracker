@@ -10,14 +10,10 @@ describe('ChartComponent', () => {
   let fixture: ComponentFixture<ChartComponent>;
   let chartService: jasmine.SpyObj<ChartService>;
 
-  const mockLoad$ = new Subject<boolean>();
-  const mockName$ = new Subject<string>();
   const mockData$ = new Subject<formattedData>();
 
   beforeEach(async () => {
-    chartService = jasmine.createSpyObj('ChartService', ['getInitialData'], {
-      load$: mockLoad$,
-      name$: mockName$,
+    chartService = jasmine.createSpyObj('ChartService', ['getGermanyData'], {
       data$: mockData$,
     });
 
@@ -48,17 +44,10 @@ describe('ChartComponent', () => {
   });
 
   it('make sure the loader is correctly rendered', () => {
-    mockLoad$.next(true);
     fixture.detectChanges();
     const loader = fixture.debugElement.query(
       By.css('mat-spinner')
     ).nativeElement;
     expect(loader).toBeTruthy();
-  });
-
-  it('make sure location is correctly rendered', () => {
-    mockName$.next('Beirut');
-    fixture.detectChanges();
-    expect(component.location).toEqual('Beirut');
   });
 });
